@@ -9,3 +9,6 @@ export {AccountLoginForm} from './AccountLoginForm.client';
 export {AccountOrderHistory} from './AccountOrderHistory.client';
 export {AccountPasswordResetForm} from './AccountPasswordResetForm.client';
 export {AccountRecoverForm} from './AccountRecoverForm.client';
+export {AccountVideoForm} from './AccountVideoForm.client';
+export {AccountVideoList} from './AccountVideoList.client';
+export {AccountVideos} from './AccountVideos.client';

@@ -16,6 +16,7 @@ import {
   AccountAddressBook,
   AccountDetails,
   AccountOrderHistory,
+  AccountVideos,
   FeaturedCollections,
   LogoutButton,
   PageHeader,
@@ -101,6 +102,7 @@ function AuthenticatedAccount({
       <PageHeader heading={heading}>
         <LogoutButton>Sign out</LogoutButton>
       </PageHeader>
+      <AccountVideos customer={customer} />
       {orders && <AccountOrderHistory orders={orders} />}
       <AccountDetails
         firstName={customer.firstName}
