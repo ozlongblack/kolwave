@@ -9,6 +9,8 @@ import {getInputStyleClasses} from '../../lib/styleUtils';
 import 'filepond/dist/filepond.min.css';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 
+import {postVideoEntry} from '../../lib/contentful/assetService';
+
 registerPlugin(FilePondPluginFileValidateType);
 
 export function AccountVideoForm({products, customer, close}) {
@@ -29,7 +31,7 @@ export function AccountVideoForm({products, customer, close}) {
 
     setSaving(true);
 
-    console.log(title, description, files, tags, relatedProducts, userId);
+    // console.log(title, description, files, tags, relatedProducts, userId);
 
     // const {data, errors} = await useContentfulQuery({
     //   query: VIDEO_UPDATE_MUTATION,
@@ -43,6 +45,15 @@ export function AccountVideoForm({products, customer, close}) {
     //     userId,
     //   },
     // });
+
+    await postVideoEntry({
+      file: files[0],
+      title,
+      description,
+      tags,
+      relatedProducts,
+      userId,
+    });
 
     setSaving(false);
 
