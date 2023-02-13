@@ -38,10 +38,10 @@ function App({request}) {
         <Seo
           type="defaultSeo"
           data={{
-            title: 'Hydrogen',
+            title: 'Kolwave',
             description:
               "A custom storefront powered by Hydrogen, Shopify's React-based framework for building headless.",
-            titleTemplate: `%s · Hydrogen`,
+            titleTemplate: `%s`,
           }}
         />
         <CartProvider

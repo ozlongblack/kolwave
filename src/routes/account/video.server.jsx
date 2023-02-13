@@ -45,7 +45,7 @@ export default function Videos({response}) {
     },
   });
 
-  const {videoTestCollection} = contentfulData;
+  const {videoCollection} = contentfulData;
 
   return (
     <Layout>
@@ -57,10 +57,7 @@ export default function Videos({response}) {
           <Text color="subtle">Return to Account Overview</Text>
         </Link>
       </PageHeader>
-      <AccountVideoList
-        videos={videoTestCollection.items}
-        customer={customer}
-      />
+      <AccountVideoList videos={videoCollection.items} customer={customer} />
     </Layout>
   );
 }
@@ -79,7 +76,7 @@ const CUSTOMER_QUERY = gql`
 
 const CONTENTFUL_QUERY = gql`
   query ($userId: String!) {
-    videoTestCollection(where: {userId: $userId}) {
+    videoCollection(where: {userId: $userId}) {
       items {
         sys {
           id

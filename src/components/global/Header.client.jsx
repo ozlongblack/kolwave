@@ -1,14 +1,7 @@
-import {Link, useUrl, useCart} from '@shopify/hydrogen';
+import {Image, Link, useUrl, useCart} from '@shopify/hydrogen';
 import {useWindowScroll} from 'react-use';
 
-import {
-  Heading,
-  IconAccount,
-  IconBag,
-  IconMenu,
-  IconSearch,
-  Input,
-} from '~/components';
+import {IconAccount, IconBag, IconMenu, IconSearch, Input} from '~/components';
 
 import {CartDrawer} from './CartDrawer.client';
 import {MenuDrawer} from './MenuDrawer.client';
@@ -17,7 +10,7 @@ import {useDrawer} from './Drawer.client';
 /**
  * A client component that specifies the content of the header on the website
  */
-export function Header({title, menu}) {
+export function Header({menu, title, logo}) {
   const {pathname} = useUrl();
 
   const localeMatch = /^\/([a-z]{2})(\/|$)/i.exec(pathname);
@@ -44,6 +37,7 @@ export function Header({title, menu}) {
       <DesktopHeader
         countryCode={countryCode}
         isHome={isHome}
+        logo={logo}
         title={title}
         menu={menu}
         openCart={openCart}
@@ -51,6 +45,7 @@ export function Header({title, menu}) {
       <MobileHeader
         countryCode={countryCode}
         isHome={isHome}
+        logo={logo}
         title={title}
         openCart={openCart}
         openMenu={openMenu}
@@ -59,15 +54,15 @@ export function Header({title, menu}) {
   );
 }
 
-function MobileHeader({countryCode, title, isHome, openCart, openMenu}) {
+function MobileHeader({countryCode, logo, title, isHome, openCart, openMenu}) {
   const {y} = useWindowScroll();
 
   const styles = {
     button: 'relative flex items-center justify-center w-8 h-8',
     container: `${
       isHome
-        ? 'bg-primary/80 dark:bg-contrast/60 text-contrast dark:text-primary shadow-darkHeader'
-        : 'bg-contrast/80 text-primary'
+        ? 'bg-white text-primary border-b border-primary/10'
+        : 'bg-white text-primary'
     } ${
       y > 50 && !isHome ? 'shadow-lightHeader ' : ''
     }flex lg:hidden items-center h-nav sticky backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-4 px-4 md:px-8`,
@@ -104,9 +99,7 @@ function MobileHeader({countryCode, title, isHome, openCart, openMenu}) {
         className="flex items-center self-stretch leading-[3rem] md:leading-[4rem] justify-center flex-grow w-full h-full"
         to="/"
       >
-        <Heading className="font-bold text-center" as={isHome ? 'h1' : 'h2'}>
-          {title}
-        </Heading>
+        {logo && <Image alt={title} data={logo} />}
       </Link>
 
       <div className="flex items-center justify-end w-full gap-4">
@@ -122,7 +115,7 @@ function MobileHeader({countryCode, title, isHome, openCart, openMenu}) {
   );
 }
 
-function DesktopHeader({countryCode, isHome, menu, openCart, title}) {
+function DesktopHeader({countryCode, isHome, menu, openCart, logo, title}) {
   const {y} = useWindowScroll();
 
   const styles = {
@@ -130,8 +123,8 @@ function DesktopHeader({countryCode, isHome, menu, openCart, title}) {
       'relative flex items-center justify-center w-8 h-8 focus:ring-primary/5',
     container: `${
       isHome
-        ? 'bg-primary/80 dark:bg-contrast/60 text-contrast dark:text-primary shadow-darkHeader'
-        : 'bg-contrast/80 text-primary'
+        ? 'bg-white text-primary border-b border-primary/10'
+        : 'bg-white text-primary'
     } ${
       y > 50 && !isHome ? 'shadow-lightHeader ' : ''
     }hidden h-nav lg:flex items-center sticky transition duration-300 backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-8 px-12 py-8`,
@@ -140,8 +133,8 @@ function DesktopHeader({countryCode, isHome, menu, openCart, title}) {
   return (
     <header role="banner" className={styles.container}>
       <div className="flex gap-12">
-        <Link className={`font-bold`} to="/">
-          {title}
+        <Link className={`h-4`} to="/">
+          {logo && <Image className="w-auto h-full" alt={title} data={logo} />}
         </Link>
         <nav className="flex gap-8">
           {/* Top level menu items */}

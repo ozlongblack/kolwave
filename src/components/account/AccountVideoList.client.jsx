@@ -1,7 +1,7 @@
 import {useState} from 'react';
 
 import {Link} from '@shopify/hydrogen';
-import {Button, Text} from '~/components';
+import {Button, Text, Video} from '~/components';
 import {AccountVideoForm, Modal} from '../index';
 
 export function AccountVideoList({videos, customer}) {
@@ -61,26 +61,9 @@ function EmptyOrders() {
 function Videos({videos}) {
   return (
     <ul className="grid-flow-row grid gap-2 gap-y-6 md:gap-4 lg:gap-6 grid-cols-1 false  sm:grid-cols-3">
-      {videos.map((video) => (
-        <Link key={video.sys.id} to={`/account/video/${video.sys.id}`}>
-          <video
-            width="100%"
-            height="auto"
-            muted
-            onClick={() => {}}
-            onMouseEnter={(event) => {
-              event.target.play();
-            }}
-            onMouseLeave={(event) => {
-              event.target.pause();
-            }}
-          >
-            <source
-              src={video.video.url}
-              type={video.video.contentType}
-            ></source>
-            Your browser does not support the video tag.
-          </video>
+      {videos.map((entry) => (
+        <Link key={entry.sys.id} to={`/account/video/${entry.sys.id}`}>
+          <Video video={entry.video}></Video>
         </Link>
       ))}
     </ul>

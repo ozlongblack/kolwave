@@ -11,8 +11,9 @@ import {
 
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/lib/fragments';
 import {getHeroPlaceholder} from '~/lib/placeholders';
-import {FeaturedCollections, Hero} from '~/components';
+import {FeaturedCollections, FeaturedVideos, Hero} from '~/components';
 import {Layout, ProductSwimlane} from '~/components/index.server';
+import {useContentfulQuery} from './api/useContentfulQuery';
 
 export default function Homepage() {
   useServerAnalytics({
@@ -51,6 +52,19 @@ function HomepageContent() {
 
   const {heroBanners, featuredCollections, featuredProducts} = data;
 
+  console.log(heroBanners.nodes);
+  console.log(featuredCollections.nodes);
+
+  const {data: contentfulData} = useContentfulQuery({
+    query: HOMEPAGE_VIDEO_QUERY,
+    variables: {
+      tags: ['recommend'],
+    },
+  });
+
+  const {videoCollection} = contentfulData;
+  console.log(videoCollection);
+
   // fill in the hero banners with placeholders if they're missing
   const [primaryHero, secondaryHero, tertiaryHero] = getHeroPlaceholder(
     heroBanners.nodes,
@@ -61,6 +75,7 @@ function HomepageContent() {
       {primaryHero && (
         <Hero {...primaryHero} height="full" top loading="eager" />
       )}
+      <FeaturedVideos data={videoCollection.items} title="#Recommended" />
       <ProductSwimlane
         data={featuredProducts.nodes}
         title="Featured Products"
@@ -93,11 +108,39 @@ function SeoForHomepage() {
       data={{
         title: name,
         description,
-        titleTemplate: '%s · Powered by Hydrogen',
+        titleTemplate: '%s',
       }}
     />
   );
 }
+
+const HOMEPAGE_VIDEO_QUERY = gql`
+  query ($tags: [String]!) {
+    videoCollection(
+      where: {contentfulMetadata: {tags: {id_contains_some: $tags}}}
+    ) {
+      items {
+        sys {
+          id
+        }
+        contentfulMetadata {
+          tags {
+            name
+          }
+        }
+        title
+        description
+        video {
+          url
+          contentType
+        }
+        relatedProducts
+        viewCount
+        userId
+      }
+    }
+  }
+`;
 
 /**
  * The homepage content query includes a request for custom metafields inside the alias

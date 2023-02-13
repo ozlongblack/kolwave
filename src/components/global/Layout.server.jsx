@@ -37,13 +37,13 @@ export function Layout({children}) {
 }
 
 function HeaderWithMenu() {
-  const {shopName, headerMenu} = useLayoutQuery();
-  return <Header title={shopName} menu={headerMenu} />;
+  const {headerMenu, shopLogo, shopName} = useLayoutQuery();
+  return <Header menu={headerMenu} logo={shopLogo} title={shopName} />;
 }
 
 function FooterWithMenu() {
-  const {footerMenu} = useLayoutQuery();
-  return <Footer menu={footerMenu} />;
+  const {footerMenu, shopLogo, shopName} = useLayoutQuery();
+  return <Footer menu={footerMenu} logo={shopLogo} title={shopName} />;
 }
 
 function useLayoutQuery() {
@@ -62,6 +62,7 @@ function useLayoutQuery() {
     preload: '*',
   });
 
+  const shopLogo = data ? data.shop.brand.logo.image : null;
   const shopName = data ? data.shop.name : SHOP_NAME_FALLBACK;
 
   /*
@@ -82,7 +83,7 @@ function useLayoutQuery() {
     ? parseMenu(data.footerMenu, customPrefixes)
     : undefined;
 
-  return {footerMenu, headerMenu, shopName};
+  return {footerMenu, headerMenu, shopLogo, shopName};
 }
 
 const SHOP_QUERY = gql`
@@ -101,6 +102,15 @@ const SHOP_QUERY = gql`
   ) @inContext(language: $language) {
     shop {
       name
+      brand {
+        logo {
+          image {
+            url
+            width
+            height
+          }
+        }
+      }
     }
     headerMenu: menu(handle: $headerMenuHandle) {
       id

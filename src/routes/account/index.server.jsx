@@ -3,6 +3,7 @@ import {
   CacheNone,
   flattenConnection,
   gql,
+  Image,
   Seo,
   useSession,
   useLocalization,
@@ -22,6 +23,7 @@ import {
   PageHeader,
 } from '~/components';
 import {Layout, ProductSwimlane} from '~/components/index.server';
+import {useContentfulQuery} from '../api/useContentfulQuery';
 
 export default function Account({response}) {
   response.cache(CacheNone());
@@ -45,6 +47,17 @@ export default function Account({response}) {
   });
 
   const {customer, featuredCollections, featuredProducts} = data;
+
+  const {data: contentfulData} = useContentfulQuery({
+    query: CONTENTFUL_QUERY,
+    variables: {
+      userId: customer.id,
+    },
+  });
+
+  console.log(contentfulData);
+  const {profileCollection} = contentfulData;
+  console.log(profileCollection.items);
 
   if (!customer) return response.redirect('/account/login');
 
@@ -274,6 +287,28 @@ const CUSTOMER_UPDATE_MUTATION = gql`
         code
         field
         message
+      }
+    }
+  }
+`;
+
+const CONTENTFUL_QUERY = gql`
+  query ($userId: String!) {
+    profileCollection(where: {userId: $userId}) {
+      items {
+        sys {
+          id
+        }
+        image {
+          url
+        }
+        banner {
+          url
+        }
+        hair
+        skin
+        tone
+        lip
       }
     }
   }
