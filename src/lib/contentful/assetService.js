@@ -7,7 +7,7 @@ const SPACE_ID = '4hyb8lwcjzfs';
 const CMA_ACCESS_TOKEN = 'CFPAT-EQOY1J114cOdW6n5vhX107WT0_pQkVF5HhfmQN-XheE';
 const ENVIRONMENT_ID = 'master';
 
-const CONTENT_TYPE_ID_VIDEO = 'videoTest';
+const CONTENT_TYPE_ID_VIDEO = 'video';
 
 export function deleteVideoAsset(assetId) {
   createClient()
@@ -27,9 +27,8 @@ export async function postVideoEntry({
 }) {
   const asset = await postVideoAsset({
     file,
-    title: `${userId}: ${file.filename}`,
+    title: `${userId}: ${file.name}`,
     description: `Video asset for VideoPost:${title}`,
-    fileName: file.filename,
   });
 
   await createVideoPostEntry({
@@ -55,8 +54,8 @@ function postVideoAsset({file, title, description}) {
           },
           file: {
             'en-US': {
-              contentType: file.fileType,
-              fileName: file.filename,
+              contentType: file.type,
+              fileName: file.name,
               file,
             },
           },
@@ -85,9 +84,6 @@ function createVideoPostEntry({
           },
           description: {
             'en-US': description,
-          },
-          uploadDate: {
-            'en-US': new Date(),
           },
           tags: {
             'en-US': tags,
