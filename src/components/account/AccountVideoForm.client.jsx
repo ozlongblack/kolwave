@@ -1,24 +1,20 @@
 import {useMemo, useState} from 'react';
 import {gql} from '@shopify/hydrogen';
-import {FilePond, registerPlugin} from 'react-filepond';
 import {useRenderServerComponents} from '~/lib/utils';
 
 import {Button, Text} from '~/components';
 import {getInputStyleClasses} from '../../lib/styleUtils';
 
 import 'filepond/dist/filepond.min.css';
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 
 import {postVideoEntry} from '../../lib/contentful/assetService';
-
-registerPlugin(FilePondPluginFileValidateType);
 
 export function AccountVideoForm({products, customer, close}) {
   const [saving, setSaving] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [files, setFiles] = useState(null);
+  const [file, setFile] = useState(null);
   const [tags, setTags] = useState([]);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const userId = customer.id;
@@ -47,7 +43,7 @@ export function AccountVideoForm({products, customer, close}) {
     // });
 
     await postVideoEntry({
-      file: files[0],
+      file,
       title,
       description,
       tags,
@@ -140,17 +136,16 @@ export function AccountVideoForm({products, customer, close}) {
             />
           </div>
           <div className="mt-3">
-            <FilePond
-              files={files}
-              onupdatefiles={setFiles}
-              maxFiles={1}
-              name="files"
-              labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-              acceptedFileTypes={['video/quicktime', 'video/mp4']}
-              credits={false}
-            />
+            <input
+              type="file"
+              id="file"
+              name="file"
+              onChange={(event) => {
+                setFile(event.target.files[0]);
+              }}
+            ></input>
           </div>
-          <div className="mt-8">
+          <div className="mt-3">
             <Button
               className="w-full rounded focus:shadow-outline"
               type="submit"
