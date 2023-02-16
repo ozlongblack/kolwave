@@ -31,6 +31,7 @@ export function AccountDetails({firstName, lastName, phone, email, profile}) {
         <Modal close={closeProfile}>
           <Seo type="noindex" data={{title: 'Profile details'}} />
           <AccountProfileEdit
+            profileId={profile.sys.id}
             hair={profile.hair}
             skin={profile.skin}
             tone={profile.tone}

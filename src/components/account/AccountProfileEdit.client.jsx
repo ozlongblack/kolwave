@@ -10,6 +10,7 @@ const toneTypes = ['light', 'normal', 'dark'];
 const lipTypes = ['light', 'normal', 'dark'];
 
 export function AccountProfileEdit({
+  profileId,
   hair: _hair = '',
   skin: _skin = '',
   tone: _tone = '',
@@ -34,6 +35,7 @@ export function AccountProfileEdit({
     setSaving(true);
 
     const accountUpdateResponse = await callAccountUpdateApi({
+      profileId,
       image,
       banner,
       hair,
@@ -229,6 +231,7 @@ export function AccountProfileEdit({
 }
 
 export async function callAccountUpdateApi({
+  profileId,
   image,
   banner,
   hair,
@@ -237,20 +240,25 @@ export async function callAccountUpdateApi({
   lip,
 }) {
   try {
-    const res = await fetch(`/account`, {
+    const res = await fetch(`/account/profile`, {
       method: 'PATCH',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        image,
-        banner,
-        hair,
-        skin,
-        tone,
-        lip,
-      }),
+      body: JSON.stringify(
+        Object.assign(
+          {
+            profileId,
+            hair,
+            skin,
+            tone,
+            lip,
+          },
+          image ? {image} : {},
+          banner ? {banner} : {},
+        ),
+      ),
     });
     if (res.ok) {
       return {};

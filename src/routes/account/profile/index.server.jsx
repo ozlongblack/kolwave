@@ -1,6 +1,7 @@
 import {CacheNone, gql} from '@shopify/hydrogen';
 
 import {getApiErrorMessage} from '~/lib/utils';
+import {useContentfulQuery} from '../../api/useContentfulQuery';
 
 export async function api(request, {session, queryShop}) {
   if (request.method !== 'PATCH' && request.method !== 'DELETE') {
@@ -12,6 +13,8 @@ export async function api(request, {session, queryShop}) {
     });
   }
 
+  console.log(queryShop);
+
   if (!session) {
     return new Response('Session storage not available.', {
       status: 400,
@@ -22,21 +25,23 @@ export async function api(request, {session, queryShop}) {
 
   if (!customerAccessToken) return new Response(null, {status: 401});
 
-  const {email, phone, firstName, lastName, newPassword} = await request.json();
+  const {profileId, hair, skin, tone, lip, image, banner} =
+    await request.json();
 
-  const customer = {};
+  const profile = {};
 
-  if (email) customer.email = email;
-  if (phone) customer.phone = phone;
-  if (firstName) customer.firstName = firstName;
-  if (lastName) customer.lastName = lastName;
-  if (newPassword) customer.password = newPassword;
+  if (hair) profile.hair = hair;
+  if (skin) profile.skin = skin;
+  if (tone) profile.tone = tone;
+  if (lip) profile.lip = lip;
+  if (image) profile.image = image;
+  if (banner) profile.banner = banner;
 
-  const {data, errors} = await queryShop({
-    query: CUSTOMER_UPDATE_MUTATION,
+  const {data, errors} = await useContentfulQuery({
+    query: CONTENTFUL_UPDATE_MUTATION,
     variables: {
-      customer,
-      customerAccessToken,
+      id: profileId,
+      profile,
     },
     // @ts-expect-error `queryShop.cache` is not yet supported but soon will be.
     cache: CacheNone(),
@@ -49,41 +54,13 @@ export async function api(request, {session, queryShop}) {
   return new Response(null);
 }
 
-const CUSTOMER_UPDATE_MUTATION = gql`
-  mutation customerUpdate(
-    $customer: CustomerUpdateInput!
-    $customerAccessToken: String!
-  ) {
-    customerUpdate(
-      customer: $customer
-      customerAccessToken: $customerAccessToken
-    ) {
-      customerUserErrors {
+const CONTENTFUL_UPDATE_MUTATION = gql`
+  mutation profileUpdate($id: ID!, $profile: Profile!) {
+    profileUpdate(id: $id, profile: $profile) {
+      profileErrors {
         code
         field
         message
-      }
-    }
-  }
-`;
-
-const CONTENTFUL_QUERY = gql`
-  query ($userId: String!) {
-    profileCollection(where: {userId: $userId}) {
-      items {
-        sys {
-          id
-        }
-        image {
-          url
-        }
-        banner {
-          url
-        }
-        hair
-        skin
-        tone
-        lip
       }
     }
   }
