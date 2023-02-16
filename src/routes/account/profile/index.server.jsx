@@ -1,9 +1,9 @@
-import {CacheNone, gql} from '@shopify/hydrogen';
+import {gql} from '@shopify/hydrogen';
 
 import {getApiErrorMessage} from '~/lib/utils';
-import {useContentfulQuery} from '../../api/useContentfulQuery';
+import {contentfulApiRequest} from '~/lib/contentful/apiRequest';
 
-export async function api(request, {session, queryShop}) {
+export async function api(request, {session}) {
   if (request.method !== 'PATCH' && request.method !== 'DELETE') {
     return new Response(null, {
       status: 405,
@@ -12,8 +12,6 @@ export async function api(request, {session, queryShop}) {
       },
     });
   }
-
-  console.log(queryShop);
 
   if (!session) {
     return new Response('Session storage not available.', {
@@ -37,14 +35,12 @@ export async function api(request, {session, queryShop}) {
   if (image) profile.image = image;
   if (banner) profile.banner = banner;
 
-  const {data, errors} = await useContentfulQuery({
+  const {data, errors} = await contentfulApiRequest({
     query: CONTENTFUL_UPDATE_MUTATION,
     variables: {
       id: profileId,
       profile,
     },
-    // @ts-expect-error `queryShop.cache` is not yet supported but soon will be.
-    cache: CacheNone(),
   });
 
   const error = getApiErrorMessage('customerUpdate', data, errors);
