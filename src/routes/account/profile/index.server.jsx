@@ -1,7 +1,6 @@
 import {gql} from '@shopify/hydrogen';
 
 import {getApiErrorMessage} from '~/lib/utils';
-import {contentfulApiRequest} from '~/lib/contentful/apiRequest';
 
 export async function api(request, {session}) {
   if (request.method !== 'PATCH' && request.method !== 'DELETE') {
@@ -35,13 +34,14 @@ export async function api(request, {session}) {
   if (image) profile.image = image;
   if (banner) profile.banner = banner;
 
-  const {data, errors} = await contentfulApiRequest({
-    query: CONTENTFUL_UPDATE_MUTATION,
-    variables: {
-      id: profileId,
-      profile,
-    },
-  });
+  // TODO: call profile update api
+  // const {data, errors} = await contentfulApiRequest({
+  //   query: CONTENTFUL_UPDATE_MUTATION,
+  //   variables: {
+  //     id: profileId,
+  //     profile,
+  //   },
+  // });
 
   const error = getApiErrorMessage('customerUpdate', data, errors);
 
@@ -49,15 +49,3 @@ export async function api(request, {session}) {
 
   return new Response(null);
 }
-
-const CONTENTFUL_UPDATE_MUTATION = gql`
-  mutation profileUpdate($id: ID!, $profile: Profile!) {
-    profileUpdate(id: $id, profile: $profile) {
-      profileErrors {
-        code
-        field
-        message
-      }
-    }
-  }
-`;
