@@ -3,11 +3,10 @@ import {gql} from '@shopify/hydrogen';
 import {useRenderServerComponents} from '~/lib/utils';
 
 import {Button, Text} from '~/components';
-import {getInputStyleClasses} from '../../lib/styleUtils';
+import {getInputStyleClasses} from '~/lib/styleUtils';
+import {postVideoEntry} from '~/lib/contentful/assetService';
 
 import 'filepond/dist/filepond.min.css';
-
-import {postVideoEntry} from '../../lib/contentful/assetService';
 
 export function AccountVideoForm({products, customer, close}) {
   const [saving, setSaving] = useState(false);

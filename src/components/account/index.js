@@ -8,6 +8,7 @@ export {AccountDetailsEdit} from './AccountDetailsEdit.client';
 export {AccountLoginForm} from './AccountLoginForm.client';
 export {AccountOrderHistory} from './AccountOrderHistory.client';
 export {AccountPasswordResetForm} from './AccountPasswordResetForm.client';
+export {AccountProfileEdit} from './AccountProfileEdit.client';
 export {AccountRecoverForm} from './AccountRecoverForm.client';
 export {AccountVideoForm} from './AccountVideoForm.client';
 export {AccountVideoList} from './AccountVideoList.client';

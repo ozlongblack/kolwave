@@ -3,7 +3,6 @@ import {
   CacheNone,
   flattenConnection,
   gql,
-  Image,
   Seo,
   useSession,
   useLocalization,
@@ -55,9 +54,7 @@ export default function Account({response}) {
     },
   });
 
-  console.log(contentfulData);
   const {profileCollection} = contentfulData;
-  console.log(profileCollection.items);
 
   if (!customer) return response.redirect('/account/login');
 
@@ -83,6 +80,7 @@ export default function Account({response}) {
     <>
       <AuthenticatedAccount
         customer={customer}
+        profile={profileCollection.items[0]}
         addresses={addresses}
         defaultAddress={defaultAddress}
         featuredCollections={flattenConnection(featuredCollections)}
@@ -94,6 +92,7 @@ export default function Account({response}) {
 
 function AuthenticatedAccount({
   customer,
+  profile,
   addresses,
   defaultAddress,
   featuredCollections,
@@ -115,14 +114,15 @@ function AuthenticatedAccount({
       <PageHeader heading={heading}>
         <LogoutButton>Sign out</LogoutButton>
       </PageHeader>
-      <AccountVideos customer={customer} />
-      {orders && <AccountOrderHistory orders={orders} />}
       <AccountDetails
         firstName={customer.firstName}
         lastName={customer.lastName}
         phone={customer.phone}
         email={customer.email}
+        profile={profile}
       />
+      <AccountVideos customer={customer} />
+      {orders && <AccountOrderHistory orders={orders} />}
       <AccountAddressBook
         defaultAddress={defaultAddress}
         addresses={addresses}

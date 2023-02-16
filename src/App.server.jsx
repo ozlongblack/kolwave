@@ -15,6 +15,8 @@ import {
 } from '@shopify/hydrogen';
 import {HeaderFallback, EventsListener} from '~/components';
 import {NotFound} from '~/components/index.server';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 function App({request}) {
   const pathname = new URL(request.normalizedUrl).pathname;
