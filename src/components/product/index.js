@@ -3,3 +3,4 @@ export {ProductGallery} from './ProductGallery.client';
 export {ProductGrid} from './ProductGrid.client';
 export {ProductDetail} from './ProductDetail.client';
 export {ProductOptions} from './ProductOptions.client';
+export {ProductSummary} from './ProductSummary.client';
