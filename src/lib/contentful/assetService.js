@@ -25,7 +25,7 @@ export async function postVideoEntry({
   relatedProducts,
   userId,
 }) {
-  const asset = await postVideoAsset({
+  const asset = await postAsset({
     file,
     title: `${userId}: ${file.name}`,
     description: `Video asset for VideoPost:${title}`,
@@ -41,7 +41,70 @@ export async function postVideoEntry({
   });
 }
 
-function postVideoAsset({file, title, description}) {
+export async function putProfileEntry({
+  profileId,
+  image,
+  banner,
+  hair,
+  skin,
+  tone,
+  lip,
+}) {
+  let imageAsset = null;
+  if (image) {
+    imageAsset = await postAsset({
+      file: image,
+      title: `[profile]${profileId}: ${image.name}`,
+      description: `Image asset for Profile post:${profileId}`,
+    });
+  }
+
+  let bannerAsset = null;
+  if (banner) {
+    bannerAsset = await postAsset({
+      file: banner,
+      title: `[banner]${profileId}: ${banner.name}`,
+      description: `Banner asset for Profile Post:${profileId}`,
+    });
+  }
+
+  createClient()
+    .then((environment) => environment.getEntry(profileId))
+    .then((entry) => {
+      if (image) {
+        entry.fields.image = {
+          'en-US': {
+            sys: {
+              type: 'Link',
+              linkType: 'Asset',
+              id: imageAsset.sys.id,
+            },
+          },
+        };
+      }
+      if (banner) {
+        entry.fields.banner = {
+          'en-US': {
+            sys: {
+              type: 'Link',
+              linkType: 'Asset',
+              id: bannerAsset.sys.id,
+            },
+          },
+        };
+      }
+      entry.fields.hair['en-US'] = hair;
+      entry.fields.skin['en-US'] = skin;
+      entry.fields.tone['en-US'] = tone;
+      entry.fields.lip['en-US'] = lip;
+      return entry.update();
+    })
+    .then((entry) => entry.publish())
+    .then((entry) => console.log(`Entry ${entry.sys.id} updated.`))
+    .catch(console.error);
+}
+
+function postAsset({file, title, description}) {
   return createClient()
     .then((environtment) =>
       environtment.createAssetFromFiles({
@@ -112,6 +175,8 @@ function createVideoPostEntry({
     .then((entry) => entry.publish())
     .catch(console.error);
 }
+
+function updateProfileEntry() {}
 
 function createClient() {
   const client = contentful.createClient({
