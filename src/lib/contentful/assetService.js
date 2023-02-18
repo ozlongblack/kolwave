@@ -190,8 +190,6 @@ function createVideoPostEntry({
     .catch(console.error);
 }
 
-function updateProfileEntry() {}
-
 function createClient() {
   const client = contentful.createClient({
     accessToken: CMA_ACCESS_TOKEN,

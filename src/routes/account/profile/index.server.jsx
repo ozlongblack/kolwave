@@ -1,5 +1,3 @@
-import {gql} from '@shopify/hydrogen';
-
 import {getApiErrorMessage} from '~/lib/utils';
 
 export async function api(request, {session}) {

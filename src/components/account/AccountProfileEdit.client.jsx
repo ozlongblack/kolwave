@@ -32,13 +32,6 @@ export function AccountProfileEdit({
   // Necessary for edits to show up on the main page
   const renderServerComponents = useRenderServerComponents();
 
-  // const entry = useContentfulQuery({
-  //   query: PROFILE_QUERY,
-  //   variables: {
-  //     id: profileId,
-  //   },
-  // }).data.profile;
-
   async function onSubmit(event) {
     event.preventDefault();
 
@@ -66,11 +59,6 @@ export function AccountProfileEdit({
     });
 
     setSaving(false);
-
-    // if (accountUpdateResponse.error) {
-    //   setSubmitError(accountUpdateResponse.error);
-    //   return;
-    // }
 
     renderServerComponents();
     close();
