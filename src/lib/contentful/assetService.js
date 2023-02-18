@@ -9,7 +9,19 @@ const ENVIRONMENT_ID = 'master';
 
 const CONTENT_TYPE_ID_VIDEO = 'video';
 
-export function deleteVideoAsset(assetId) {
+export async function deleteVideoEntry(videoId) {
+  createClient()
+    .then((environment) => environment.getEntry(videoId))
+    .then((entry) => entry.unpublish())
+    .then(async (entry) => {
+      const assetId = entry.fields.video['en-US'].sys.id;
+      await deleteVideoAsset(assetId);
+      return entry.delete();
+    })
+    .catch(console.error);
+}
+
+async function deleteVideoAsset(assetId) {
   createClient()
     .then((environment) => environment.getAsset(assetId))
     .then((asset) => asset.unpublish())

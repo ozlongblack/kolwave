@@ -15,6 +15,8 @@ import {useContentfulQuery} from '../../api/useContentfulQuery';
 
 import {ProductSummary} from '../../../components/product';
 
+import {VideoDeleteButton} from '~/components/Video';
+
 export default function VideoDetails({response}) {
   const {id} = useRouteParams();
 
@@ -39,12 +41,13 @@ export default function VideoDetails({response}) {
   //   preload: true,
   // });
 
-  const relatedProducts = useContentfulQuery({
-    query: RELATED_PRODUCTS_QUERY,
-    variables: {
-      id,
-    },
-  }).data.video.relatedProducts;
+  const relatedProducts =
+    useContentfulQuery({
+      query: RELATED_PRODUCTS_QUERY,
+      variables: {
+        id,
+      },
+    }).data.video.relatedProducts || [];
 
   const productSummaryList = relatedProducts.map((relatedProduct) => {
     const product = useShopQuery({
@@ -79,6 +82,7 @@ export default function VideoDetails({response}) {
           <Text color="subtle">Return to Account Video</Text>
         </Link>
       </PageHeader>
+      <VideoDeleteButton id={id} />
       {productSummaryList.map((productSummary) => (
         <ProductSummary {...productSummary} />
       ))}
