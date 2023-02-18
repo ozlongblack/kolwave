@@ -48,28 +48,30 @@ export default function VideoDetails({response}) {
 
   const {video} = data;
 
-  const productSummaryList = video.relatedProducts.map((relatedProduct) => {
-    const product = useShopQuery({
-      query: PRODUCT_DETAIL_QUERY,
-      variables: {
-        id: `gid://shopify/Product/${relatedProduct}`,
-      },
-      preload: true,
-    }).data.product;
+  const productSummaryList = video.relatedProducts
+    ? video.relatedProducts.map((relatedProduct) => {
+        const product = useShopQuery({
+          query: PRODUCT_DETAIL_QUERY,
+          variables: {
+            id: `gid://shopify/Product/${relatedProduct}`,
+          },
+          preload: true,
+        }).data.product;
 
-    const price =
-      product.priceRange.maxVariantPrice.amount !==
-      product.priceRange.minVariantPrice.amount
-        ? `from $${product.priceRange.minVariantPrice.amount}`
-        : `$${product.priceRange.minVariantPrice.amount}`;
+        const price =
+          product.priceRange.maxVariantPrice.amount !==
+          product.priceRange.minVariantPrice.amount
+            ? `from $${product.priceRange.minVariantPrice.amount}`
+            : `$${product.priceRange.minVariantPrice.amount}`;
 
-    return {
-      price,
-      title: product.title,
-      vendor: product.vendor,
-      image: product.featuredImage,
-    };
-  });
+        return {
+          price,
+          title: product.title,
+          vendor: product.vendor,
+          image: product.featuredImage,
+        };
+      })
+    : [];
 
   return (
     <Layout>

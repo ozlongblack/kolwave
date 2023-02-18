@@ -57,6 +57,7 @@ export async function putProfileEntry({
   profileId,
   image,
   banner,
+  nickname,
   hair,
   skin,
   tone,
@@ -105,6 +106,7 @@ export async function putProfileEntry({
           },
         };
       }
+      entry.fields.nickname['en-US'] = nickname;
       entry.fields.hair['en-US'] = hair;
       entry.fields.skin['en-US'] = skin;
       entry.fields.tone['en-US'] = tone;

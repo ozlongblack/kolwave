@@ -32,6 +32,7 @@ export function AccountDetails({firstName, lastName, phone, email, profile}) {
           <Seo type="noindex" data={{title: 'Profile details'}} />
           <AccountProfileEdit
             profileId={profile.sys.id}
+            nickname={profile.nickname}
             hair={profile.hair}
             skin={profile.skin}
             tone={profile.tone}
@@ -116,7 +117,8 @@ function Profile({data}) {
           />
         </div>
       )}
-
+      <div className="mt-4 text-sm text-primary/50">Nickname</div>
+      <p className="mt-1">{data.nickname}</p>
       <div className="mt-4 text-sm text-primary/50">Hair Type</div>
       <p className="mt-1">{data.hair}</p>
       <div className="mt-4 text-sm text-primary/50">Skin Type</div>

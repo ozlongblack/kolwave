@@ -305,6 +305,7 @@ const CONTENTFUL_QUERY = gql`
         banner {
           url
         }
+        nickname
         hair
         skin
         tone

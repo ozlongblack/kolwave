@@ -5,8 +5,6 @@ import {useRenderServerComponents} from '~/lib/utils';
 import {getInputStyleClasses} from '../../lib/styleUtils';
 import {putProfileEntry} from '~/lib/contentful/assetService';
 
-import {gql} from '@shopify/hydrogen';
-
 const hairTypes = ['straight', 'wavy', 'curl'];
 const skinTypes = ['normal', 'sensitive'];
 const toneTypes = ['light', 'normal', 'dark'];
@@ -14,6 +12,7 @@ const lipTypes = ['light', 'normal', 'dark'];
 
 export function AccountProfileEdit({
   profileId,
+  nickname: _nickname = '',
   hair: _hair = '',
   skin: _skin = '',
   tone: _tone = '',
@@ -23,6 +22,7 @@ export function AccountProfileEdit({
   const [saving, setSaving] = useState(false);
   const [image, setImage] = useState(null);
   const [banner, setBanner] = useState(null);
+  const [nickname, setNickname] = useState(_nickname);
   const [hair, setHair] = useState(_hair);
   const [skin, setSkin] = useState(_skin);
   const [tone, setTone] = useState(_tone);
@@ -54,7 +54,16 @@ export function AccountProfileEdit({
     //   lip,
     // });
 
-    await putProfileEntry({profileId, image, banner, hair, skin, tone, lip});
+    await putProfileEntry({
+      profileId,
+      nickname,
+      image,
+      banner,
+      hair,
+      skin,
+      tone,
+      lip,
+    });
 
     setSaving(false);
 
@@ -103,6 +112,21 @@ export function AccountProfileEdit({
             accept="image/png, image/jpeg"
             onChange={(event) => {
               setBanner(event.target.files[0]);
+            }}
+          />
+        </div>
+        <div className="mt-4 text-sm text-primary/50">Nickname</div>
+        <div className="mt-1">
+          <input
+            className={getInputStyleClasses()}
+            id="nickname"
+            name="nickname"
+            type="text"
+            placeholder="Nickname"
+            aria-label="Nickname"
+            value={nickname}
+            onChange={(event) => {
+              setNickname(event.target.value);
             }}
           />
         </div>
@@ -244,6 +268,7 @@ export function AccountProfileEdit({
 
 export async function callAccountUpdateApi({
   profileId,
+  nickname,
   image,
   banner,
   hair,
@@ -262,6 +287,7 @@ export async function callAccountUpdateApi({
         Object.assign(
           {
             profileId,
+            nickname,
             hair,
             skin,
             tone,

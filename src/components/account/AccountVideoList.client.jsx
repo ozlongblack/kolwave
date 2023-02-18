@@ -60,11 +60,15 @@ function EmptyOrders() {
 
 function Videos({videos}) {
   return (
-    <ul className="grid-flow-row grid gap-2 gap-y-6 md:gap-4 lg:gap-6 grid-cols-1 false  sm:grid-cols-3">
+    <ul className="grid-flow-row grid gap-2 gap-y-6 md:gap-4 lg:gap-6 grid-cols-1 false  sm:grid-cols-4">
       {videos.map((entry) => (
-        <Link key={entry.sys.id} to={`/account/video/${entry.sys.id}`}>
+        <div key={entry.sys.id} className="relative">
           <Video video={entry.video}></Video>
-        </Link>
+          <Link
+            to={`/account/video/${entry.sys.id}`}
+            className="absolute inset-0 flex items-center justify-center"
+          ></Link>
+        </div>
       ))}
     </ul>
   );
