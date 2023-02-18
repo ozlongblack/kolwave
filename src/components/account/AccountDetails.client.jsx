@@ -101,13 +101,22 @@ function Profile({data}) {
   return (
     <>
       <div className="mt-4 text-sm text-primary/50">Profile Image</div>
-      <div className="mt-1 w-16 h-16">
-        <Image data={data.image} />
-      </div>
+      {data.image && (
+        <div className="mt-1 w-16 h-16">
+          <Image data={data.image} />
+        </div>
+      )}
+
       <div className="mt-4 text-sm text-primary/50">Banner Image</div>
-      <div className="mt-1 w-full">
-        <Image className="object-cover w-full rounded-lg" data={data.banner} />
-      </div>
+      {data.banner && (
+        <div className="mt-1 w-32">
+          <Image
+            className="object-cover w-full rounded-lg"
+            data={data.banner}
+          />
+        </div>
+      )}
+
       <div className="mt-4 text-sm text-primary/50">Hair Type</div>
       <p className="mt-1">{data.hair}</p>
       <div className="mt-4 text-sm text-primary/50">Skin Type</div>
