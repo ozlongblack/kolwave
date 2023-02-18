@@ -19,11 +19,7 @@ export function AccountVideoList({videos, customer}) {
     <>
       {editingVideo ? (
         <Modal close={close}>
-          <AccountVideoForm
-            video={editingVideo}
-            customer={customer}
-            close={close}
-          />
+          <AccountVideoForm customer={customer} close={close} />
         </Modal>
       ) : null}
       <div className="mt-6">

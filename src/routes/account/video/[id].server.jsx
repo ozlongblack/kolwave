@@ -20,27 +20,13 @@ export default function VideoDetails({response}) {
 
   response.cache(CacheNone());
 
-  // const {
-  //   language: {isoCode: languageCode},
-  //   country: {isoCode: countryCode},
-  // } = useLocalization();
   const {customerAccessToken} = useSession();
 
   if (!customerAccessToken) return response.redirect('/account/login');
   if (!id) return response.redirect('/account/');
 
-  // const {data} = useShopQuery({
-  //   query: ALL_PRODUCTS_QUERY,
-  //   variables: {
-  //     country: countryCode,
-  //     language: languageCode,
-  //     pageBy: PAGINATION_SIZE,
-  //   },
-  //   preload: true,
-  // });
-
   const {data} = useContentfulQuery({
-    query: RELATED_PRODUCTS_QUERY,
+    query: VIDEO_QUERY,
     variables: {
       id,
     },
@@ -66,6 +52,7 @@ export default function VideoDetails({response}) {
 
         return {
           price,
+          id: product.id,
           title: product.title,
           vendor: product.vendor,
           image: product.featuredImage,
@@ -83,17 +70,34 @@ export default function VideoDetails({response}) {
           <Text color="subtle">Return to Account Video</Text>
         </Link>
       </PageHeader>
-      <VideoDeleteButton id={id} />
-      {video.title}
-      {video.description}
-      <Video video={video.video} />
-      {productSummaryList.map((productSummary) => (
-        <ProductSummary {...productSummary} />
-      ))}
-      {/* {products.nodes.map((product) => (
-        <div>{product.title}</div>
-      ))} */}
+      <VideoCard
+        id={id}
+        title={video.title}
+        description={video.description}
+        video={video.video}
+        productSummaryList={productSummaryList}
+      />
     </Layout>
+  );
+}
+
+function VideoCard({id, title, description, video, productSummaryList}) {
+  return (
+    <div className="grid w-full gap-4 p-4 py-6 md:gap-8 md:p-8 lg:p-12">
+      <Text as="h3" size="lead">
+        {title}
+      </Text>
+      <Text as="p">{description}</Text>
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
+        <Video video={video} />
+        <div className="flex flex-col gap-4">
+          {productSummaryList.map((productSummary) => (
+            <ProductSummary key={productSummary.id} {...productSummary} />
+          ))}
+        </div>
+      </div>
+      <VideoDeleteButton id={id} />
+    </div>
   );
 }
 
@@ -120,8 +124,8 @@ const PRODUCT_DETAIL_QUERY = gql`
   }
 `;
 
-const RELATED_PRODUCTS_QUERY = gql`
-  query RelatedProducts($id: String!) {
+const VIDEO_QUERY = gql`
+  query Video($id: String!) {
     video(id: $id) {
       title
       description
@@ -135,24 +139,3 @@ const RELATED_PRODUCTS_QUERY = gql`
     }
   }
 `;
-
-// const ALL_PRODUCTS_QUERY = gql`
-//   ${PRODUCT_CARD_FRAGMENT}
-//   query AllProducts(
-//     $country: CountryCode
-//     $language: LanguageCode
-//     $pageBy: Int!
-//     $cursor: String
-//   ) @inContext(country: $country, language: $language) {
-//     products(first: $pageBy, after: $cursor) {
-//       nodes {
-//         ...ProductCard
-//       }
-//       pageInfo {
-//         hasNextPage
-//         startCursor
-//         endCursor
-//       }
-//     }
-//   }
-// `;

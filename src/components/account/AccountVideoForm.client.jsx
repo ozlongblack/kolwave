@@ -1,5 +1,4 @@
-import {useMemo, useState} from 'react';
-import {gql} from '@shopify/hydrogen';
+import {useState} from 'react';
 import {useRenderServerComponents} from '~/lib/utils';
 
 import {Button, Text} from '~/components';
@@ -8,7 +7,7 @@ import {postVideoEntry} from '~/lib/contentful/assetService';
 
 import 'filepond/dist/filepond.min.css';
 
-export function AccountVideoForm({products, customer, close}) {
+export function AccountVideoForm({customer, close}) {
   const [saving, setSaving] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [title, setTitle] = useState('');
@@ -25,21 +24,6 @@ export function AccountVideoForm({products, customer, close}) {
     event.preventDefault();
 
     setSaving(true);
-
-    // console.log(title, description, files, tags, relatedProducts, userId);
-
-    // const {data, errors} = await useContentfulQuery({
-    //   query: VIDEO_UPDATE_MUTATION,
-    //   variables: {
-    //     id: video?.sys.id,
-    //     title,
-    //     description,
-    //     files,
-    //     tags,
-    //     products,
-    //     userId,
-    //   },
-    // });
 
     await postVideoEntry({
       file,

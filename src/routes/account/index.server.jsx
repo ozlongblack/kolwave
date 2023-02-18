@@ -47,6 +47,8 @@ export default function Account({response}) {
 
   const {customer, featuredCollections, featuredProducts} = data;
 
+  if (!customer) return response.redirect('/account/login');
+
   const {data: contentfulData} = useContentfulQuery({
     query: CONTENTFUL_QUERY,
     variables: {
@@ -55,8 +57,6 @@ export default function Account({response}) {
   });
 
   const {profileCollection} = contentfulData;
-
-  if (!customer) return response.redirect('/account/login');
 
   // The logged-in analytics state.
   useServerAnalytics({

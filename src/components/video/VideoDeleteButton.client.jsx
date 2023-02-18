@@ -8,7 +8,7 @@ export function VideoDeleteButton({id}) {
         deleteVideoEntry(id);
       }}
     >
-      delete video
+      Delete
     </Button>
   );
 }
