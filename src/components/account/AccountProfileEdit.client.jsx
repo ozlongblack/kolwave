@@ -3,6 +3,9 @@ import {useState} from 'react';
 import {Text, Button} from '~/components';
 import {useRenderServerComponents} from '~/lib/utils';
 import {getInputStyleClasses} from '../../lib/styleUtils';
+import {putProfileEntry} from '~/lib/contentful/assetService';
+
+import {gql} from '@shopify/hydrogen';
 
 const hairTypes = ['straight', 'wavy', 'curl'];
 const skinTypes = ['normal', 'sensitive'];
@@ -29,27 +32,36 @@ export function AccountProfileEdit({
   // Necessary for edits to show up on the main page
   const renderServerComponents = useRenderServerComponents();
 
+  // const entry = useContentfulQuery({
+  //   query: PROFILE_QUERY,
+  //   variables: {
+  //     id: profileId,
+  //   },
+  // }).data.profile;
+
   async function onSubmit(event) {
     event.preventDefault();
 
     setSaving(true);
 
-    const accountUpdateResponse = await callAccountUpdateApi({
-      profileId,
-      image,
-      banner,
-      hair,
-      skin,
-      tone,
-      lip,
-    });
+    // const accountUpdateResponse = await callAccountUpdateApi({
+    //   profileId,
+    //   image,
+    //   banner,
+    //   hair,
+    //   skin,
+    //   tone,
+    //   lip,
+    // });
+
+    await putProfileEntry({profileId, image, banner, hair, skin, tone, lip});
 
     setSaving(false);
 
-    if (accountUpdateResponse.error) {
-      setSubmitError(accountUpdateResponse.error);
-      return;
-    }
+    // if (accountUpdateResponse.error) {
+    //   setSubmitError(accountUpdateResponse.error);
+    //   return;
+    // }
 
     renderServerComponents();
     close();
