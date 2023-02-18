@@ -9,11 +9,9 @@ import {
 } from '@shopify/hydrogen';
 import {Suspense} from 'react';
 
-import {Text, PageHeader} from '~/components';
+import {Text, PageHeader, ProductSummary, Video} from '~/components';
 import {Layout} from '~/components/index.server';
 import {useContentfulQuery} from '../../api/useContentfulQuery';
-
-import {ProductSummary} from '../../../components/product';
 
 import {VideoDeleteButton} from '~/components/Video';
 
@@ -41,15 +39,16 @@ export default function VideoDetails({response}) {
   //   preload: true,
   // });
 
-  const relatedProducts =
-    useContentfulQuery({
-      query: RELATED_PRODUCTS_QUERY,
-      variables: {
-        id,
-      },
-    }).data.video.relatedProducts || [];
+  const {data} = useContentfulQuery({
+    query: RELATED_PRODUCTS_QUERY,
+    variables: {
+      id,
+    },
+  });
 
-  const productSummaryList = relatedProducts.map((relatedProduct) => {
+  const {video} = data;
+
+  const productSummaryList = video.relatedProducts.map((relatedProduct) => {
     const product = useShopQuery({
       query: PRODUCT_DETAIL_QUERY,
       variables: {
@@ -83,6 +82,9 @@ export default function VideoDetails({response}) {
         </Link>
       </PageHeader>
       <VideoDeleteButton id={id} />
+      {video.title}
+      {video.description}
+      <Video video={video.video} />
       {productSummaryList.map((productSummary) => (
         <ProductSummary {...productSummary} />
       ))}
@@ -119,7 +121,15 @@ const PRODUCT_DETAIL_QUERY = gql`
 const RELATED_PRODUCTS_QUERY = gql`
   query RelatedProducts($id: String!) {
     video(id: $id) {
+      title
+      description
+      video {
+        url
+        contentType
+      }
+      tags
       relatedProducts
+      userId
     }
   }
 `;
