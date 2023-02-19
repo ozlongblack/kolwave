@@ -13,7 +13,7 @@ import {AccountVideoList, PageHeader, Text} from '~/components';
 import {Layout} from '~/components/index.server';
 import {useContentfulQuery} from '../api/useContentfulQuery';
 
-export default function Videos({response}) {
+export default function Videos({response, videos = []}) {
   response.cache(CacheNone());
 
   const {
@@ -46,6 +46,9 @@ export default function Videos({response}) {
   });
 
   const {videoCollection} = contentfulData;
+  if (videos.length === 0) {
+    videos = videoCollection.items;
+  }
 
   return (
     <Layout>
@@ -57,7 +60,7 @@ export default function Videos({response}) {
           <Text color="subtle">Return to Account Overview</Text>
         </Link>
       </PageHeader>
-      <AccountVideoList videos={videoCollection.items} customer={customer} />
+      <AccountVideoList videos={videos} customer={customer} />)
     </Layout>
   );
 }

@@ -5,9 +5,11 @@ import {Button, Text} from '~/components';
 import {getInputStyleClasses} from '~/lib/styleUtils';
 import {postVideoEntry} from '~/lib/contentful/assetService';
 
+import {useServerProps} from '@shopify/hydrogen';
+
 import 'filepond/dist/filepond.min.css';
 
-export function AccountVideoForm({customer, close}) {
+export function AccountVideoForm({customer, close, videos}) {
   const [saving, setSaving] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [title, setTitle] = useState('');
@@ -19,13 +21,14 @@ export function AccountVideoForm({customer, close}) {
 
   // Necessary for edits to show up on the main page
   const renderServerComponents = useRenderServerComponents();
+  const {setServerProps} = useServerProps();
 
   async function onSubmit(event) {
     event.preventDefault();
 
     setSaving(true);
 
-    await postVideoEntry({
+    const video = await postVideoEntry({
       file,
       title,
       description,
@@ -35,7 +38,7 @@ export function AccountVideoForm({customer, close}) {
     });
 
     setSaving(false);
-
+    setServerProps('videos', [video, ...videos]);
     // if (response.error) {
     //   setSubmitError(response.error);
     //   return;

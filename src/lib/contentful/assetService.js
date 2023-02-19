@@ -43,7 +43,7 @@ export async function postVideoEntry({
     description: `Video asset for VideoPost:${title}`,
   });
 
-  await createVideoPostEntry({
+  const videoEntry = await createVideoPostEntry({
     title,
     description,
     tags,
@@ -51,6 +51,16 @@ export async function postVideoEntry({
     userId,
     videoId: asset.sys.id,
   });
+  return {
+    ...videoEntry.fields,
+    sys: {
+      id: videoEntry.sys.id,
+    },
+    video: {
+      contentType: asset.fields.file['en-US'].contentType,
+      url: 'https://' + asset.fields.file['en-US'].url,
+    },
+  };
 }
 
 export async function putProfileEntry({
@@ -173,7 +183,7 @@ function createVideoPostEntry({
   userId,
   videoId,
 }) {
-  createClient()
+  return createClient()
     .then((environment) =>
       environment.createEntry(CONTENT_TYPE_ID_VIDEO, {
         fields: {
