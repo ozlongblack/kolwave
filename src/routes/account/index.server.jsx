@@ -24,7 +24,7 @@ import {
 import {Layout, ProductSwimlane} from '~/components/index.server';
 import {useContentfulQuery} from '../api/useContentfulQuery';
 
-export default function Account({response}) {
+export default function Account({response, profile = null}) {
   response.cache(CacheNone());
 
   const {
@@ -57,6 +57,11 @@ export default function Account({response}) {
   });
 
   const {profileCollection} = contentfulData;
+  const _profile = profileCollection.items[0];
+
+  if (!profile) {
+    profile = _profile;
+  }
 
   // The logged-in analytics state.
   useServerAnalytics({
@@ -80,7 +85,8 @@ export default function Account({response}) {
     <>
       <AuthenticatedAccount
         customer={customer}
-        profile={profileCollection.items[0]}
+        // profile={profileCollection.items[0]}
+        profile={profile}
         addresses={addresses}
         defaultAddress={defaultAddress}
         featuredCollections={flattenConnection(featuredCollections)}
