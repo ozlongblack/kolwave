@@ -52,18 +52,18 @@ function HomepageContent() {
 
   const {heroBanners, featuredCollections, featuredProducts} = data;
 
-  console.log(heroBanners.nodes);
-  console.log(featuredCollections.nodes);
-
   const {data: contentfulData} = useContentfulQuery({
     query: HOMEPAGE_VIDEO_QUERY,
     variables: {
-      tags: ['recommend'],
+      featuredTags: ['recommend'],
+      heroTags: ['hero'],
     },
   });
 
-  const {videoCollection} = contentfulData;
-  console.log(videoCollection);
+  const {featuredVideos, heroVideos} = contentfulData;
+
+  console.log(heroVideos);
+  console.log(heroVideos.items);
 
   // fill in the hero banners with placeholders if they're missing
   const [primaryHero, secondaryHero, tertiaryHero] = getHeroPlaceholder(
@@ -75,7 +75,7 @@ function HomepageContent() {
       {primaryHero && (
         <Hero {...primaryHero} height="full" top loading="eager" />
       )}
-      <FeaturedVideos data={videoCollection.items} title="#Recommended" />
+      <FeaturedVideos data={featuredVideos.items} title="#Recommended" />
       <ProductSwimlane
         data={featuredProducts.nodes}
         title="Featured Products"
@@ -115,9 +115,32 @@ function SeoForHomepage() {
 }
 
 const HOMEPAGE_VIDEO_QUERY = gql`
-  query ($tags: [String]!) {
-    videoCollection(
-      where: {contentfulMetadata: {tags: {id_contains_some: $tags}}}
+  query ($featuredTags: [String]!, $heroTags: [String]!) {
+    featuredVideos: videoCollection(
+      where: {contentfulMetadata: {tags: {id_contains_some: $featuredTags}}}
+    ) {
+      items {
+        sys {
+          id
+        }
+        contentfulMetadata {
+          tags {
+            name
+          }
+        }
+        title
+        description
+        video {
+          url
+          contentType
+        }
+        relatedProducts
+        viewCount
+        userId
+      }
+    }
+    heroVideos: videoCollection(
+      where: {contentfulMetadata: {tags: {id_contains_some: $heroTags}}}
     ) {
       items {
         sys {
