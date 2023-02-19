@@ -114,8 +114,29 @@ export async function putProfileEntry({
       return entry.update();
     })
     .then((entry) => entry.publish())
-    .then((entry) => console.log(`Entry ${entry.sys.id} updated.`))
     .catch(console.error);
+
+  let profile = {hair, skin, tone, lip};
+
+  if (imageAsset) {
+    profile = {
+      ...profile,
+      image: {
+        url: 'https://' + imageAsset.fields.file['en-US'].url,
+      },
+    };
+  }
+
+  if (bannerAsset) {
+    profile = {
+      ...profile,
+      banner: {
+        url: 'https://' + bannerAsset.fields.file['en-US'].url,
+      },
+    };
+  }
+
+  return profile;
 }
 
 function postAsset({file, title, description}) {

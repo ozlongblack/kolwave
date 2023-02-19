@@ -1,5 +1,7 @@
 import {useState} from 'react';
 
+import {useServerProps} from '@shopify/hydrogen';
+
 import {Text, Button} from '~/components';
 import {useRenderServerComponents} from '~/lib/utils';
 import {getInputStyleClasses} from '../../lib/styleUtils';
@@ -11,6 +13,7 @@ const toneTypes = ['light', 'normal', 'dark'];
 const lipTypes = ['light', 'normal', 'dark'];
 
 export function AccountProfileEdit({
+  profile,
   profileId,
   nickname: _nickname = '',
   hair: _hair = '',
@@ -31,6 +34,7 @@ export function AccountProfileEdit({
 
   // Necessary for edits to show up on the main page
   const renderServerComponents = useRenderServerComponents();
+  const {setServerProps} = useServerProps();
 
   async function onSubmit(event) {
     event.preventDefault();
@@ -47,7 +51,7 @@ export function AccountProfileEdit({
     //   lip,
     // });
 
-    await putProfileEntry({
+    const newProfile = await putProfileEntry({
       profileId,
       nickname,
       image,
@@ -59,6 +63,7 @@ export function AccountProfileEdit({
     });
 
     setSaving(false);
+    await setServerProps('profile', {...profile, ...newProfile});
 
     renderServerComponents();
     close();
