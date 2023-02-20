@@ -2,7 +2,7 @@ import {useState} from 'react';
 
 import {useServerProps} from '@shopify/hydrogen';
 
-import {Text, Button} from '~/components';
+import {Text, Button, Spinner} from '~/components';
 import {useRenderServerComponents} from '~/lib/utils';
 import {getInputStyleClasses} from '../../lib/styleUtils';
 import {putProfileEntry} from '~/lib/contentful/assetService';
@@ -232,28 +232,36 @@ export function AccountProfileEdit({
           })}
         </div>
 
-        <div className="mt-6">
-          <Button
-            className="text-sm mb-2"
-            variant="primary"
-            width="full"
-            type="submit"
-            disabled={saving}
-          >
-            Save
-          </Button>
-        </div>
-        <div className="mb-4">
-          <Button
-            type="button"
-            className="text-sm"
-            variant="secondary"
-            width="full"
-            onClick={close}
-          >
-            Cancel
-          </Button>
-        </div>
+        {saving ? (
+          <div className="mt-6 mb-4">
+            <Spinner />
+          </div>
+        ) : (
+          <>
+            <div className="mt-6">
+              <Button
+                className="text-sm mb-2"
+                variant="primary"
+                width="full"
+                type="submit"
+                disabled={saving}
+              >
+                Save
+              </Button>
+            </div>
+            <div className="mb-4">
+              <Button
+                type="button"
+                className="text-sm"
+                variant="secondary"
+                width="full"
+                onClick={close}
+              >
+                Cancel
+              </Button>
+            </div>
+          </>
+        )}
       </form>
     </>
   );
