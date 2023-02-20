@@ -11,7 +11,12 @@ import {
 
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/lib/fragments';
 import {getHeroPlaceholder} from '~/lib/placeholders';
-import {FeaturedCollections, FeaturedVideos, Hero} from '~/components';
+import {
+  FeaturedCollections,
+  FeaturedVideos,
+  Hero,
+  HeroVideo,
+} from '~/components';
 import {Layout, ProductSwimlane} from '~/components/index.server';
 import {useContentfulQuery} from './api/useContentfulQuery';
 
@@ -58,12 +63,55 @@ function HomepageContent() {
       featuredTags: ['recommend'],
       heroTags: ['hero'],
     },
+    key: 'videos',
   });
 
   const {featuredVideos, heroVideos} = contentfulData;
 
-  console.log(heroVideos);
-  console.log(heroVideos.items);
+  const heroVideosWithDetails =
+    heroVideos && heroVideos.items
+      ? heroVideos.items.map((heroVideo) => {
+          const relatedProductsWithDetails = heroVideo.relatedProducts.map(
+            (relatedProduct) => {
+              const product = useShopQuery({
+                query: PRODUCT_DETAIL_QUERY,
+                variables: {
+                  id: `gid://shopify/Product/${relatedProduct}`,
+                },
+                preload: true,
+              }).data.product;
+
+              const price =
+                product.priceRange.maxVariantPrice.amount !==
+                product.priceRange.minVariantPrice.amount
+                  ? `from $${product.priceRange.minVariantPrice.amount}`
+                  : `$${product.priceRange.minVariantPrice.amount}`;
+
+              return {
+                price,
+                id: product.id,
+                title: product.title,
+                vendor: product.vendor,
+                image: product.featuredImage,
+                variants: product.variants,
+              };
+            },
+          );
+
+          const {data} = useContentfulQuery({
+            query: PROFILE_QUERY,
+            variables: {
+              userId: heroVideo.userId,
+            },
+            key: heroVideo.userId,
+          });
+
+          const {profileCollection} = data;
+          const profile = profileCollection.items[0];
+
+          return {...heroVideo, profile, relatedProductsWithDetails};
+        })
+      : [];
 
   // fill in the hero banners with placeholders if they're missing
   const [primaryHero, secondaryHero, tertiaryHero] = getHeroPlaceholder(
@@ -75,7 +123,21 @@ function HomepageContent() {
       {primaryHero && (
         <Hero {...primaryHero} height="full" top loading="eager" />
       )}
-      <FeaturedVideos data={featuredVideos.items} title="#Recommended" />
+      {featuredVideos && (
+        <FeaturedVideos data={featuredVideos.items} title="#Recommended" />
+      )}
+      {heroVideosWithDetails.map(
+        ({profile, sys, video, title, tags, relatedProductsWithDetails}) => (
+          <HeroVideo
+            key={sys.id}
+            profile={profile}
+            video={video}
+            title={title}
+            tags={tags}
+            relatedProducts={relatedProductsWithDetails}
+          />
+        ),
+      )}
       <ProductSwimlane
         data={featuredProducts.nodes}
         title="Featured Products"
@@ -157,9 +219,68 @@ const HOMEPAGE_VIDEO_QUERY = gql`
           url
           contentType
         }
+        tags
         relatedProducts
         viewCount
         userId
+      }
+    }
+  }
+`;
+
+const PROFILE_QUERY = gql`
+  query ($userId: String!) {
+    profileCollection(where: {userId: $userId}) {
+      items {
+        sys {
+          id
+        }
+        image {
+          url
+        }
+        banner {
+          url
+        }
+        nickname
+        hair
+        skin
+        tone
+        lip
+      }
+    }
+  }
+`;
+
+const PRODUCT_DETAIL_QUERY = gql`
+  query ProductDetail($id: ID!) {
+    product(id: $id) {
+      id
+      title
+      vendor
+      featuredImage {
+        url
+        height
+        width
+      }
+      priceRange {
+        maxVariantPrice {
+          amount
+        }
+        minVariantPrice {
+          amount
+        }
+      }
+      variants(first: 1) {
+        edges {
+          node {
+            id
+            availableForSale
+            selectedOptions {
+              name
+              value
+            }
+          }
+        }
       }
     }
   }
