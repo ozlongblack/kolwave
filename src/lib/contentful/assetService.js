@@ -10,7 +10,7 @@ const ENVIRONMENT_ID = 'master';
 const CONTENT_TYPE_ID_VIDEO = 'video';
 
 export async function deleteVideoEntry(videoId) {
-  createClient()
+  await createClient()
     .then((environment) => environment.getEntry(videoId))
     .then((entry) => entry.unpublish())
     .then(async (entry) => {
@@ -22,7 +22,7 @@ export async function deleteVideoEntry(videoId) {
 }
 
 async function deleteVideoAsset(assetId) {
-  createClient()
+  await createClient()
     .then((environment) => environment.getAsset(assetId))
     .then((asset) => asset.unpublish())
     .then((asset) => asset.delete())
