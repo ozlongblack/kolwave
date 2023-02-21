@@ -1,6 +1,6 @@
 import {Link} from '@shopify/hydrogen';
 
-import {Heading, Section, Video} from '~/components';
+import {Section, Video} from '~/components';
 
 export function FeaturedVideos({data, title = 'Videos', ...props}) {
   const haveCollections = data.length > 0;
@@ -17,12 +17,9 @@ export function FeaturedVideos({data, title = 'Videos', ...props}) {
           return (
             <Link key={entry.sys.id} to={`/video/${entry.sys.id}`}>
               <div className="grid gap-4 snap-start w-80">
-                <div className="">
-                  {entry?.video && (
-                    <Video video={entry.video} viewCount={entry.viewCount} />
-                  )}
-                </div>
-                <Heading size="copy">{entry.title}</Heading>
+                {entry?.video && (
+                  <Video video={entry.video} viewCount={entry.viewCount} />
+                )}
               </div>
             </Link>
           );

@@ -23,7 +23,11 @@ export function HeroVideo({
   return (
     <Section {...props} heading={title}>
       <div className="flex gap-4 mb-4">
-        <Image data={profile.image} className="w-16 h-16" />
+        <Image
+          data={profile.image}
+          className="w-16 h-16"
+          alt={profile.nickname}
+        />
         <div className="flex-1">
           <Text as="h3" size="h3">
             {profile.nickname}
@@ -31,7 +35,7 @@ export function HeroVideo({
           <div className="mt-1 flex flex-wrap gap-2">
             {tags &&
               tags.map((tag) => (
-                <Text key="tag" size="small" className="text-comment">
+                <Text key={tag} size="small" className="text-comment">
                   {tag}
                 </Text>
               ))}
