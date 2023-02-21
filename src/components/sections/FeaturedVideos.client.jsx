@@ -1,6 +1,7 @@
 import {Link} from '@shopify/hydrogen';
 
-import {Section, Video} from '~/components';
+import {Section, Text, Video} from '~/components';
+import {abbreviateNumber} from '~/lib/utils';
 
 export function FeaturedVideos({data, title = 'Videos', ...props}) {
   const haveCollections = data.length > 0;
@@ -16,17 +17,23 @@ export function FeaturedVideos({data, title = 'Videos', ...props}) {
           }
           return (
             <div key={entry.sys.id}>
-              <div className="grid gap-4 snap-start w-80">
-                {entry?.video && (
-                  <Video video={entry.video} viewCount={entry.viewCount} />
-                )}
+              <div className="snap-start w-80">
+                {entry?.video && <Video video={entry.video} />}
               </div>
-              <Link
-                className="block mt-2 font-proxima text-copy"
-                to={`/video/${entry.sys.id}`}
-              >
-                {entry.title}
+
+              <Link className="block mt-2" to={`/video/${entry.sys.id}`}>
+                <Text className="font-proxima text-copy">{entry.title}</Text>
               </Link>
+              {entry.viewCount > 0 && (
+                <div>
+                  <Text
+                    size="small"
+                    className="px-2 py-1 bg-comment font-proxima text-white rounded-md"
+                  >
+                    {abbreviateNumber(entry.viewCount)} views
+                  </Text>
+                </div>
+              )}
             </div>
           );
         })}
