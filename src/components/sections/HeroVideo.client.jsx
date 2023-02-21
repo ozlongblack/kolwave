@@ -25,9 +25,16 @@ export function HeroVideo({
       <div className="flex gap-4 mb-4">
         <Image data={profile.image} className="w-16 h-16" />
         <div className="flex-1">
-          <Text as="h3">{profile.nickname}</Text>
-          <div className="mt-1 flex flex-wrap gap-x-2 text-xs text-primary/50">
-            {tags && tags.map((tag) => <span key="tag">{tag}</span>)}
+          <Text as="h3" size="h3">
+            {profile.nickname}
+          </Text>
+          <div className="mt-1 flex flex-wrap gap-2">
+            {tags &&
+              tags.map((tag) => (
+                <Text key="tag" size="small" className="text-comment">
+                  {tag}
+                </Text>
+              ))}
           </div>
         </div>
       </div>

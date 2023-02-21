@@ -19,6 +19,7 @@ module.exports = {
         contrast: withOpacityValue('--color-contrast'),
         notice: withOpacityValue('--color-accent'),
         signature: withOpacityValue('--color-signature'),
+        comment: withOpacityValue('--color-comment'),
         shopPay: 'var(--color-shop-pay)',
       },
       screens: {
@@ -48,8 +49,21 @@ module.exports = {
         mobileGallery: 'calc(100vw - 3rem)',
       },
       fontFamily: {
-        sans: ['Helvetica Neue', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        serif: ['"IBMPlexSerif"', 'Palatino', 'ui-serif'],
+        sans: [
+          'Khmer MN',
+          'Helvetica Neue',
+          'ui-sans-serif',
+          'system-ui',
+          'sans-serif',
+        ],
+        helvetica: [
+          'Helvetica Neue',
+          'ui-sans-serif',
+          'system-ui',
+          'sans-serif',
+        ],
+        serif: ['IBMPlexSerif', 'Palatino', 'ui-serif'],
+        proxima: ['Proxima Nova', 'IBMPlexSerif', 'Palatino', 'ui-serif'],
       },
       fontSize: {
         display: ['var(--font-size-display)', '1.1'],
@@ -57,6 +71,12 @@ module.exports = {
         lead: ['var(--font-size-lead)', '1.333'],
         copy: ['var(--font-size-copy)', '1.5'],
         fine: ['var(--font-size-fine)', '1.333'],
+        h1: ['var(--font-size-h1)', '2'],
+        h2: ['var(--font-size-h2)', '1.5'],
+        h3: ['var(--font-size-h3)', '1.25'],
+        body: ['var(--font-size-body)', '0.875'],
+        small: ['var(--font-size-small)', '0.75'],
+        sub: ['var(--font-size-sub)', '0.625'],
       },
       maxWidth: {
         'prose-narrow': '45ch',

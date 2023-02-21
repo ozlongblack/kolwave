@@ -14,17 +14,19 @@ export function ProductSummary({children, price, title, vendor, image}) {
       <Image className="w-16 h-16 rounded-full" data={data}></Image>
       <div className="flex-1">
         <div>
-          <Text as="h5" size="lead">
+          <Text as="h5" size="copy" className="font-proxima">
             {price}
           </Text>
         </div>
         <div>
-          <Text as="h5" size="lead">
+          <Text as="h5" size="copy" className="font-proxima">
             {vendor}
           </Text>
         </div>
         <div>
-          <span className="text-xs text-primary/50">{title}</span>
+          <Text size="body" className="font-proxima text-comment">
+            {title}
+          </Text>
         </div>
       </div>
       {children}

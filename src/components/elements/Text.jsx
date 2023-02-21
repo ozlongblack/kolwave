@@ -24,6 +24,12 @@ export function Text({
     lead: 'text-lead font-medium',
     copy: 'text-copy',
     fine: 'text-fine subpixel-antialiased',
+    h1: 'text-h1',
+    h2: 'text-h2',
+    h3: 'text-h3',
+    body: 'text-body',
+    small: 'text-small',
+    sub: 'text-sub',
   };
 
   const widths = {
