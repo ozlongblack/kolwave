@@ -15,13 +15,19 @@ export function FeaturedVideos({data, title = 'Videos', ...props}) {
             return null;
           }
           return (
-            <Link key={entry.sys.id} to={`/video/${entry.sys.id}`}>
+            <div key={entry.sys.id}>
               <div className="grid gap-4 snap-start w-80">
                 {entry?.video && (
                   <Video video={entry.video} viewCount={entry.viewCount} />
                 )}
               </div>
-            </Link>
+              <Link
+                className="block mt-2 font-proxima text-copy"
+                to={`/video/${entry.sys.id}`}
+              >
+                {entry.title}
+              </Link>
+            </div>
           );
         })}
       </div>

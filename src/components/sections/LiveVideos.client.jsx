@@ -16,39 +16,39 @@ export function LiveVideos({data, title = 'Videos', ...props}) {
             return null;
           }
           return (
-            <Link key={entry.sys.id} to={`/video/${entry.sys.id}`}>
-              <div className="grid gap-2 snap-start w-80">
-                <div className="">
-                  {entry?.video && (
-                    <Video
-                      video={entry.video}
-                      live={true}
-                      viewCount={entry.viewCount}
-                    />
-                  )}
+            <div key={entry.sys.id} className="grid gap-2 snap-start w-80">
+              <div className="">
+                {entry?.video && (
+                  <Video
+                    video={entry.video}
+                    live={true}
+                    viewCount={entry.viewCount}
+                  />
+                )}
+              </div>
+              <div className="flex gap-2 items-center">
+                <div className="w-8 h-8">
+                  <Image
+                    data={entry.profile.image}
+                    alt={entry.profile.nickname}
+                  />
                 </div>
-                <div className="flex gap-2 items-center">
-                  <div className="w-8 h-8">
-                    <Image
-                      data={entry.profile.image}
-                      alt={entry.profile.nickname}
-                    />
-                  </div>
-                  <Text>{entry.profile.nickname}</Text>
-                </div>
+                <Text>{entry.profile.nickname}</Text>
+              </div>
+              <Link to={`/live/${entry.sys.id}`}>
                 <Heading size="copy" className="font-proxima">
                   {entry.title}
                 </Heading>
-                <div>
-                  <Text
-                    size="small"
-                    className="px-2 py-1 bg-comment font-proxima text-white rounded-md"
-                  >
-                    {abbreviateNumber(entry.viewCount)} watching
-                  </Text>
-                </div>
+              </Link>
+              <div>
+                <Text
+                  size="small"
+                  className="px-2 py-1 bg-comment font-proxima text-white rounded-md"
+                >
+                  {abbreviateNumber(entry.viewCount)} watching
+                </Text>
               </div>
-            </Link>
+            </div>
           );
         })}
       </div>
