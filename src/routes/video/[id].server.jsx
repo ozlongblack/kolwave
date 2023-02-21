@@ -22,8 +22,6 @@ export default function Video({params}) {
 
   const {video} = data;
 
-  console.log(data);
-
   if (!video) {
     return <NotFound />;
   }

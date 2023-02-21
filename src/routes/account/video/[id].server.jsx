@@ -9,7 +9,7 @@ import {
 } from '@shopify/hydrogen';
 import {Suspense} from 'react';
 
-import {Text, PageHeader, ProductSummary, Video} from '~/components';
+import {Text, PageHeader, ProductSummary} from '~/components';
 import {Layout} from '~/components/index.server';
 import {useContentfulQuery} from '../../api/useContentfulQuery';
 
