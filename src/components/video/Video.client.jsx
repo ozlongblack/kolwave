@@ -24,7 +24,6 @@ export function Video({video, live, viewCount, click}) {
         width="100%"
         height="auto"
         className="rounded-lg"
-        preload="auto"
         controls
         onClick={(event) => {
           if (click) {
@@ -38,7 +37,7 @@ export function Video({video, live, viewCount, click}) {
           event.target.pause();
         }}
       >
-        <source src={video.url} type={video.contentType}></source>
+        <source src={`${video.url}#t=0.001`} type={video.contentType}></source>
         Your browser does not support the video tag.
       </video>
     </div>
