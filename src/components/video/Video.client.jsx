@@ -15,6 +15,7 @@ export function Video({video, live, click}) {
         height="auto"
         className="rounded-lg"
         controls
+        playsInline
         onClick={(event) => {
           if (click) {
             click(event);
