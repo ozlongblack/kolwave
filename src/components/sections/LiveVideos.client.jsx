@@ -1,6 +1,7 @@
 import {Image, Link} from '@shopify/hydrogen';
 
 import {Heading, Section, Text, Video} from '~/components';
+import {abbreviateNumber} from '~/lib/utils';
 
 export function LiveVideos({data, title = 'Videos', ...props}) {
   const haveCollections = data.length > 0;
@@ -28,7 +29,10 @@ export function LiveVideos({data, title = 'Videos', ...props}) {
                 </div>
                 <div className="flex gap-2 items-center">
                   <div className="w-8 h-8">
-                    <Image data={entry.profile.image} />
+                    <Image
+                      data={entry.profile.image}
+                      alt={entry.profile.nickname}
+                    />
                   </div>
                   <Text>{entry.profile.nickname}</Text>
                 </div>
@@ -40,7 +44,7 @@ export function LiveVideos({data, title = 'Videos', ...props}) {
                     size="small"
                     className="px-2 py-1 bg-comment font-proxima text-white rounded-md"
                   >
-                    {entry.viewCount} watching
+                    {abbreviateNumber(entry.viewCount)} watching
                   </Text>
                 </div>
               </div>
