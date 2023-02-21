@@ -24,6 +24,7 @@ export function Video({video, live, viewCount, click}) {
         width="100%"
         height="auto"
         className="rounded-lg"
+        preload="auto"
         controls
         onClick={(event) => {
           if (click) {
