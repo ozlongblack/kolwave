@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {useRenderServerComponents} from '~/lib/utils';
 
-import {Button, Text} from '~/components';
+import {Button, Text, Spinner} from '~/components';
 import {getInputStyleClasses} from '~/lib/styleUtils';
 import {postVideoEntry} from '~/lib/contentful/assetService';
 
@@ -50,6 +50,7 @@ export function AccountVideoForm({customer, close, videos}) {
 
   return (
     <>
+      {saving && <div>saving. . .</div>}
       <Text className="mt-4 mb-6" as="h3" size="lead">
         Add video
       </Text>
@@ -131,25 +132,33 @@ export function AccountVideoForm({customer, close, videos}) {
               }}
             ></input>
           </div>
-          <div className="mt-3">
-            <Button
-              className="w-full rounded focus:shadow-outline"
-              type="submit"
-              variant="primary"
-              disabled={saving}
-            >
-              Save
-            </Button>
-          </div>
-          <div>
-            <Button
-              className="w-full mt-2 rounded focus:shadow-outline"
-              variant="secondary"
-              onClick={close}
-            >
-              Cancel
-            </Button>
-          </div>
+          {saving ? (
+            <div className="mt-3">
+              <Spinner />
+            </div>
+          ) : (
+            <>
+              <div className="mt-3">
+                <Button
+                  className="w-full rounded focus:shadow-outline"
+                  type="submit"
+                  variant="primary"
+                  disabled={saving}
+                >
+                  Save
+                </Button>
+              </div>
+              <div>
+                <Button
+                  className="w-full mt-2 rounded focus:shadow-outline"
+                  variant="secondary"
+                  onClick={close}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </>
+          )}
         </form>
       </div>
     </>

@@ -15,7 +15,7 @@ import {useContentfulQuery} from '../../api/useContentfulQuery';
 
 import {VideoDeleteButton} from '~/components/Video';
 
-export default function VideoDetails({response}) {
+export default function VideoDetails({response /*, isDeleted = false*/}) {
   const {id} = useRouteParams();
 
   response.cache(CacheNone());
@@ -24,6 +24,7 @@ export default function VideoDetails({response}) {
 
   if (!customerAccessToken) return response.redirect('/account/login');
   if (!id) return response.redirect('/account/');
+  // if (isDeleted) return response.redirect('/account/video');
 
   const {data} = useContentfulQuery({
     query: VIDEO_QUERY,
@@ -76,12 +77,20 @@ export default function VideoDetails({response}) {
         description={video.description}
         video={video.video}
         productSummaryList={productSummaryList}
+        isDeleted={isDeleted}
       />
     </Layout>
   );
 }
 
-function VideoCard({id, title, description, video, productSummaryList}) {
+function VideoCard({
+  id,
+  title,
+  description,
+  video,
+  productSummaryList,
+  isDeleted,
+}) {
   return (
     <div className="grid w-full gap-4 p-4 py-6 md:gap-8 md:p-8 lg:p-12">
       <Text as="h3" size="lead">
@@ -96,7 +105,7 @@ function VideoCard({id, title, description, video, productSummaryList}) {
           ))}
         </div>
       </div>
-      <VideoDeleteButton id={id} />
+      <VideoDeleteButton id={id} isDeleted={isDeleted} />
     </div>
   );
 }

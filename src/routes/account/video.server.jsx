@@ -43,6 +43,7 @@ export default function Videos({response, videos = []}) {
     variables: {
       userId: customer.id,
     },
+    cache: CacheNone(),
   });
 
   const {videoCollection} = contentfulData;
