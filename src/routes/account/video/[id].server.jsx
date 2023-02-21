@@ -9,11 +9,14 @@ import {
 } from '@shopify/hydrogen';
 import {Suspense} from 'react';
 
-import {Text, PageHeader, ProductSummary} from '~/components';
+import {
+  Text,
+  PageHeader,
+  ProductSummary,
+  VideoDeleteButton,
+} from '~/components';
 import {Layout} from '~/components/index.server';
 import {useContentfulQuery} from '../../api/useContentfulQuery';
-
-import {VideoDeleteButton} from '~/components/Video';
 
 export default function VideoDetails({response /*, isDeleted = false*/}) {
   const {id} = useRouteParams();
