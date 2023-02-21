@@ -30,9 +30,9 @@ export function LiveVideos({data, title = 'Videos', ...props}) {
                 <Text>{entry.profile.nickname}</Text>
               </div>
               <Link to={`/live/${entry.sys.id}`}>
-                <Heading size="copy" className="font-proxima">
+                <Text size="copy" className="font-proxima leading-4">
                   {entry.title}
-                </Heading>
+                </Text>
               </Link>
               <div>
                 <Text
