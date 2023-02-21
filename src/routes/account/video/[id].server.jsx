@@ -13,6 +13,7 @@ import {
   Text,
   PageHeader,
   ProductSummary,
+  Video,
   VideoDeleteButton,
 } from '~/components';
 import {Layout} from '~/components/index.server';
@@ -101,6 +102,7 @@ function VideoCard({
       </Text>
       <Text as="p">{description}</Text>
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
+        <Video video={video} />
         <div className="flex flex-col gap-4">
           {productSummaryList.map((productSummary) => (
             <ProductSummary key={productSummary.id} {...productSummary} />
