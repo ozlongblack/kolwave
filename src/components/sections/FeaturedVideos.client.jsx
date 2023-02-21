@@ -17,23 +17,24 @@ export function FeaturedVideos({data, title = 'Videos', ...props}) {
           }
           return (
             <div key={entry.sys.id}>
-              <div className="snap-start w-80">
+              <div className="grid gap-2 snap-start w-80">
                 {entry?.video && <Video video={entry.video} />}
-              </div>
-
-              <Link className="block mt-2" to={`/video/${entry.sys.id}`}>
-                <Text className="font-proxima text-copy">{entry.title}</Text>
-              </Link>
-              {entry.viewCount > 0 && (
-                <div>
-                  <Text
-                    size="small"
-                    className="px-2 py-1 bg-comment font-proxima text-white rounded-md"
-                  >
-                    {abbreviateNumber(entry.viewCount)} views
+                <Link className="block" to={`/video/${entry.sys.id}`}>
+                  <Text size="copy" className="font-proxima leading-4">
+                    {entry.title}
                   </Text>
-                </div>
-              )}
+                </Link>
+                {entry.viewCount > 0 && (
+                  <div>
+                    <Text
+                      size="small"
+                      className="px-2 py-1 bg-comment font-proxima text-white rounded-md"
+                    >
+                      {abbreviateNumber(entry.viewCount)} views
+                    </Text>
+                  </div>
+                )}
+              </div>
             </div>
           );
         })}

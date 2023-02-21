@@ -22,7 +22,7 @@ export function HeroVideo({
 }) {
   return (
     <Section {...props} heading={title}>
-      <div className="flex gap-4 mb-4">
+      <div className="flex gap-4">
         <Image
           data={profile.image}
           className="w-16 h-16"
