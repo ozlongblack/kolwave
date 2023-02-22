@@ -161,6 +161,8 @@ const PROFILE_QUERY = gql`
         }
         banner {
           url
+          height
+          width
         }
         nickname
         hair

@@ -307,9 +307,13 @@ const CONTENTFUL_QUERY = gql`
         }
         image {
           url
+          height
+          width
         }
         banner {
           url
+          height
+          width
         }
         nickname
         hair
