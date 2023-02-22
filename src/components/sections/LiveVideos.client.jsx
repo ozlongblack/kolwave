@@ -16,7 +16,7 @@ export function LiveVideos({data, title = 'Videos', ...props}) {
             return null;
           }
           return (
-            <div key={entry.sys.id} className="grid gap-2 snap-start w-80">
+            <div key={entry.sys.id} className="grid gap-2 snap-start w-40">
               <div className="">
                 {entry?.video && <Video video={entry.video} live={true} />}
               </div>
