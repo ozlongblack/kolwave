@@ -18,7 +18,9 @@ export function FeaturedVideos({data, title = 'Videos', ...props}) {
           return (
             <div key={entry.sys.id}>
               <div className="grid gap-2 snap-start w-40">
-                {entry?.video && <Video video={entry.video} />}
+                {entry?.video && (
+                  <Video video={entry.video} className="rounded-md" />
+                )}
                 <Link className="block" to={`/video/${entry.sys.id}`}>
                   <Text size="copy" className="font-proxima leading-4">
                     {entry.title}

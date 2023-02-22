@@ -18,7 +18,13 @@ export function LiveVideos({data, title = 'Videos', ...props}) {
           return (
             <div key={entry.sys.id} className="grid gap-2 snap-start w-40">
               <div className="">
-                {entry?.video && <Video video={entry.video} live={true} />}
+                {entry?.video && (
+                  <Video
+                    video={entry.video}
+                    live={true}
+                    className="rounded-md"
+                  />
+                )}
               </div>
               <div className="flex gap-2 items-center">
                 <div className="w-8 h-8">

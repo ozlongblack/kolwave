@@ -1,4 +1,8 @@
-export function Video({video, live, click}) {
+import clsx from 'clsx';
+
+export function Video({video, live, click, className}) {
+  const styles = clsx(className);
+
   return (
     <div className="relative">
       {live && (
@@ -13,7 +17,7 @@ export function Video({video, live, click}) {
       <video
         width="100%"
         height="auto"
-        className="rounded-lg"
+        className={styles}
         controls
         playsInline
         onClick={(event) => {

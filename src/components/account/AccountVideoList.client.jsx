@@ -59,7 +59,7 @@ function Videos({videos}) {
     <ul className="grid-flow-row grid gap-2 gap-y-6 md:gap-4 lg:gap-6 grid-cols-1 false  sm:grid-cols-4">
       {videos.map((entry) => (
         <div key={entry.sys.id} className="relative">
-          <Video video={entry.video}></Video>
+          <Video video={entry.video} className="rounded-md"></Video>
           <Link
             to={`/account/video/${entry.sys.id}`}
             className="absolute inset-0 flex items-center justify-center"

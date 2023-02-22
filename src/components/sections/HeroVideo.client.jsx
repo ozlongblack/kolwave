@@ -1,13 +1,9 @@
-import {
-  AddToCartButton,
-  Image,
-  ProductOptionsProvider,
-} from '@shopify/hydrogen';
+import {AddToCartButton, ProductOptionsProvider} from '@shopify/hydrogen';
 import {
   IconAddToCart,
   ProductSummary,
+  Profile,
   Section,
-  Text,
   Video,
 } from '~/components';
 
@@ -22,27 +18,8 @@ export function HeroVideo({
 }) {
   return (
     <Section {...props} heading={title}>
-      <div className="flex gap-4">
-        <Image
-          data={profile.image}
-          className="w-16 h-16"
-          alt={profile.nickname}
-        />
-        <div className="flex-1">
-          <Text as="h3" size="h3">
-            {profile.nickname}
-          </Text>
-          <div className="mt-1 flex flex-wrap gap-2">
-            {tags &&
-              tags.map((tag) => (
-                <Text key={tag} size="small" className="text-comment">
-                  {tag}
-                </Text>
-              ))}
-          </div>
-        </div>
-      </div>
-      <Video video={video} viewCount={viewCount} />
+      <Profile profile={profile} tags={tags} />
+      <Video video={video} viewCount={viewCount} className="rounded-md" />
       <div className="mt-6">
         {relatedProducts.map((relatedProduct) => (
           <ProductOptionsProvider key={relatedProduct.id} data={relatedProduct}>
