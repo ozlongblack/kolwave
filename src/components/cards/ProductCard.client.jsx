@@ -39,7 +39,7 @@ export function ProductCard({product, label, className, loading, onClick}) {
           <Text
             as="label"
             size="fine"
-            className="absolute top-0 right-0 m-4 text-right text-notice"
+            className="absolute top-0 right-0 m-4 font-proxima text-right text-notice"
           >
             {cardLabel}
           </Text>
@@ -63,13 +63,13 @@ export function ProductCard({product, label, className, loading, onClick}) {
         </div>
         <div className="grid gap-1">
           <Text
-            className="w-full overflow-hidden whitespace-nowrap text-ellipsis "
+            className="w-full overflow-hidden whitespace-nowrap font-proxima text-ellipsis "
             as="h3"
           >
             {product.title}
           </Text>
           <div className="flex gap-4">
-            <Text className="flex gap-4">
+            <Text className="flex gap-4 font-proxima">
               <Money withoutTrailingZeros data={price} />
               {isDiscounted(price, compareAtPrice) && (
                 <CompareAtPrice

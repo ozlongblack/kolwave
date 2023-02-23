@@ -15,8 +15,8 @@ import {getImageLoadingPriority, PAGINATION_SIZE} from '~/lib/const';
 export default function Collections() {
   return (
     <Layout>
-      <Seo type="page" data={{title: 'All Collections'}} />
-      <PageHeader heading="Collections" />
+      <Seo type="page" data={{title: 'All Brands'}} />
+      <PageHeader heading="Brands" />
       <Section>
         <Suspense>
           <CollectionGrid />
@@ -70,7 +70,7 @@ const COLLECTIONS_QUERY = gql`
     $language: LanguageCode
     $pageBy: Int!
   ) @inContext(country: $country, language: $language) {
-    collections(first: $pageBy) {
+    collections(first: $pageBy, query: "title:[Brand]*") {
       nodes {
         id
         title
@@ -86,6 +86,9 @@ const COLLECTIONS_QUERY = gql`
           width
           height
           altText
+        }
+        brandTitle: metafield(namespace: "brand", key: "title") {
+          value
         }
       }
     }

@@ -10,7 +10,7 @@ import {useDrawer} from './Drawer.client';
 /**
  * A client component that specifies the content of the header on the website
  */
-export function Header({menu, title, logo}) {
+export function Header({link, menu, title, logo}) {
   const {pathname} = useUrl();
 
   const localeMatch = /^\/([a-z]{2})(\/|$)/i.exec(pathname);
@@ -33,12 +33,18 @@ export function Header({menu, title, logo}) {
   return (
     <>
       <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
-      <MenuDrawer isOpen={isMenuOpen} onClose={closeMenu} menu={menu} />
+      <MenuDrawer
+        isOpen={isMenuOpen}
+        onClose={closeMenu}
+        link={link}
+        menu={menu}
+      />
       <DesktopHeader
         countryCode={countryCode}
         isHome={isHome}
         logo={logo}
         title={title}
+        link={link}
         menu={menu}
         openCart={openCart}
       />

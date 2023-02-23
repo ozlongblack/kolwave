@@ -250,3 +250,32 @@ export function IconAddToCart(props) {
     </Icon>
   );
 }
+
+export function IconShop(props) {
+  return (
+    <Icon {...props}>
+      <title>Shop</title>
+      <path
+        d="M14.9798 5.60464H15.9893L16.9989 18.5003C17.0179 18.7765 16.7989 19.0146 16.5227 19.0146L3.43659 19.0527C3.16039 19.0527 2.94134 18.8146 2.96038 18.5384L3.89374 5.64274H4.9414"
+        stroke="#222222"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M11.1703 6.62372H8.76074"
+        stroke="#222222"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M13.0749 8.19519V4.1284C13.0749 2.36644 11.6844 0.947357 9.97008 0.947357C8.25575 0.947357 6.86523 2.37597 6.86523 4.1284V8.19519"
+        stroke="#222222"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Icon>
+  );
+}

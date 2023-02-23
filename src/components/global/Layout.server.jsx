@@ -5,6 +5,7 @@ import {Header} from '~/components';
 import {Footer} from '~/components/index.server';
 import {parseMenu} from '~/lib/utils';
 
+const HEADER_LINK_HANDLE = 'main-link';
 const HEADER_MENU_HANDLE = 'main-menu';
 const FOOTER_MENU_HANDLE = 'footer';
 
@@ -37,8 +38,15 @@ export function Layout({children}) {
 }
 
 function HeaderWithMenu() {
-  const {headerMenu, shopLogo, shopName} = useLayoutQuery();
-  return <Header menu={headerMenu} logo={shopLogo} title={shopName} />;
+  const {headerLink, headerMenu, shopLogo, shopName} = useLayoutQuery();
+  return (
+    <Header
+      link={headerLink}
+      menu={headerMenu}
+      logo={shopLogo}
+      title={shopName}
+    />
+  );
 }
 
 function FooterWithMenu() {
@@ -55,6 +63,7 @@ function useLayoutQuery() {
     query: SHOP_QUERY,
     variables: {
       language: languageCode,
+      headerLinkHandle: HEADER_LINK_HANDLE,
       headerMenuHandle: HEADER_MENU_HANDLE,
       footerMenuHandle: FOOTER_MENU_HANDLE,
     },
@@ -75,6 +84,10 @@ function useLayoutQuery() {
       */
   const customPrefixes = {BLOG: '', CATALOG: 'products'};
 
+  const headerLink = data?.headerLink
+    ? parseMenu(data.headerLink, customPrefixes)
+    : undefined;
+
   const headerMenu = data?.headerMenu
     ? parseMenu(data.headerMenu, customPrefixes)
     : undefined;
@@ -83,7 +96,7 @@ function useLayoutQuery() {
     ? parseMenu(data.footerMenu, customPrefixes)
     : undefined;
 
-  return {footerMenu, headerMenu, shopLogo, shopName};
+  return {footerMenu, headerLink, headerMenu, shopLogo, shopName};
 }
 
 const SHOP_QUERY = gql`
@@ -97,6 +110,7 @@ const SHOP_QUERY = gql`
   }
   query layoutMenus(
     $language: LanguageCode
+    $headerLinkHandle: String!
     $headerMenuHandle: String!
     $footerMenuHandle: String!
   ) @inContext(language: $language) {
@@ -109,6 +123,15 @@ const SHOP_QUERY = gql`
             width
             height
           }
+        }
+      }
+    }
+    headerLink: menu(handle: $headerLinkHandle) {
+      id
+      items {
+        ...MenuItem
+        items {
+          ...MenuItem
         }
       }
     }

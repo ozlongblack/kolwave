@@ -23,7 +23,7 @@ export function CartEmpty({onClose, layout = 'drawer'}) {
   return (
     <div ref={scrollRef} className={container[layout]}>
       <section className="grid gap-6">
-        <Text format>
+        <Text format className="font-proxima">
           Looks like you haven&rsquo;t added anything yet, let&rsquo;s get you
           started!
         </Text>
@@ -32,7 +32,7 @@ export function CartEmpty({onClose, layout = 'drawer'}) {
         </div>
       </section>
       <section className="grid gap-8 pt-4">
-        <Heading format size="copy">
+        <Heading format size="lead">
           Shop Best Sellers
         </Heading>
         <div

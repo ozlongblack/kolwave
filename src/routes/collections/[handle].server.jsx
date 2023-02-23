@@ -52,7 +52,11 @@ export default function Collection({params}) {
       <Suspense>
         <Seo type="collection" data={collection} />
       </Suspense>
-      <PageHeader heading={collection.title}>
+      <PageHeader
+        heading={
+          collection.brandTitle ? collection.brandTitle.value : collection.title
+        }
+      >
         {collection?.description && (
           <div className="flex items-baseline justify-between w-full">
             <div>
@@ -132,6 +136,9 @@ const COLLECTION_QUERY = gql`
           hasNextPage
           endCursor
         }
+      }
+      brandTitle: metafield(namespace: "brand", key: "title") {
+        value
       }
     }
   }

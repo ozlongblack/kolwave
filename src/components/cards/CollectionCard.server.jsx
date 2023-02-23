@@ -22,7 +22,7 @@ export function CollectionCard({collection, loading}) {
         )}
       </div>
       <Heading as="h3" size="copy">
-        {collection.title}
+        {collection.brandTitle ? collection.brandTitle.value : collection.title}
       </Heading>
     </Link>
   );
