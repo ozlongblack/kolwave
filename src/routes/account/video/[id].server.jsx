@@ -44,7 +44,7 @@ export default function VideoDetails({response /*, isDeleted = false*/}) {
         const product = useShopQuery({
           query: PRODUCT_DETAIL_QUERY,
           variables: {
-            id: `gid://shopify/Product/${relatedProduct}`,
+            id: relatedProduct,
           },
           preload: true,
         }).data.product;

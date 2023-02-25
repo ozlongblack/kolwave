@@ -21,6 +21,7 @@ import {
   Section,
   Text,
 } from '~/components';
+import {useContentfulQuery} from '../api/useContentfulQuery';
 
 export default function Product() {
   const {handle} = useRouteParams();
@@ -53,6 +54,17 @@ export default function Product() {
     sku,
     title: variantTitle,
   } = product.variants.nodes[0];
+
+  console.log(id);
+
+  const {data: contentfulData} = useContentfulQuery({
+    query: VIDEO_QUERY,
+    variables: {
+      productId: id,
+    },
+  });
+
+  console.log(contentfulData);
 
   useServerAnalytics({
     shopify: {
@@ -193,6 +205,32 @@ const PRODUCT_QUERY = gql`
       refundPolicy {
         body
         handle
+      }
+    }
+  }
+`;
+
+const VIDEO_QUERY = gql`
+  query ($productId: [String!]) {
+    videoCollection(where: {relatedProducts_contains_some: $productId}) {
+      items {
+        sys {
+          id
+        }
+        contentfulMetadata {
+          tags {
+            name
+          }
+        }
+        title
+        description
+        video {
+          url
+          contentType
+        }
+        relatedProducts
+        viewCount
+        userId
       }
     }
   }
