@@ -49,14 +49,15 @@ export default function Account({response, profile = null}) {
 
   if (!customer) return response.redirect('/account/login');
 
-  const {data: contentfulData} = useContentfulQuery({
-    query: CONTENTFUL_QUERY,
+  const {
+    data: {profileCollection},
+  } = useContentfulQuery({
+    query: PROFILE_QUERY,
     variables: {
       userId: customer.id,
     },
   });
 
-  const {profileCollection} = contentfulData;
   const _profile = profileCollection.items[0];
 
   if (!profile) {
@@ -298,7 +299,7 @@ const CUSTOMER_UPDATE_MUTATION = gql`
   }
 `;
 
-const CONTENTFUL_QUERY = gql`
+const PROFILE_QUERY = gql`
   query ($userId: String!) {
     profileCollection(where: {userId: $userId}) {
       items {

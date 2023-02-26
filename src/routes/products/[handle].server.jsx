@@ -14,6 +14,7 @@ import {MEDIA_FRAGMENT} from '~/lib/fragments';
 import {getExcerpt} from '~/lib/utils';
 import {NotFound, Layout, ProductSwimlane} from '~/components/index.server';
 import {
+  FeaturedVideos,
   Heading,
   ProductDetail,
   ProductForm,
@@ -55,16 +56,16 @@ export default function Product() {
     title: variantTitle,
   } = product.variants.nodes[0];
 
-  console.log(id);
-
-  const {data: contentfulData} = useContentfulQuery({
+  const {
+    data: {videoCollection},
+  } = useContentfulQuery({
     query: VIDEO_QUERY,
     variables: {
       productId: id,
     },
   });
 
-  console.log(contentfulData);
+  console.log(videoCollection);
 
   useServerAnalytics({
     shopify: {
@@ -135,6 +136,12 @@ export default function Product() {
             </div>
           </div>
         </Section>
+        {videoCollection.items && (
+          <FeaturedVideos
+            data={videoCollection.items}
+            title={'Videos Reviews'}
+          ></FeaturedVideos>
+        )}
         <Suspense>
           <ProductSwimlane title="Related Products" data={id} />
         </Suspense>

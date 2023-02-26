@@ -1,7 +1,7 @@
-import {Image} from '@shopify/hydrogen';
+import {Image, Link} from '@shopify/hydrogen';
 import {Text} from '~/components';
 
-export function ProductSummary({children, price, title, vendor, image}) {
+export function ProductSummary({children, price, title, vendor, image, url}) {
   const data = {
     url: image.url,
     height: image.height,
@@ -24,9 +24,11 @@ export function ProductSummary({children, price, title, vendor, image}) {
           </Text>
         </div>
         <div>
-          <Text size="body" className="font-proxima text-comment">
-            {title}
-          </Text>
+          <Link to={url}>
+            <Text size="body" className="font-proxima text-comment">
+              {title}
+            </Text>
+          </Link>
         </div>
       </div>
       {children}

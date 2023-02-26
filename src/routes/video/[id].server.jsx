@@ -37,7 +37,9 @@ export default function VideoDetails({params}) {
     return <NotFound />;
   }
 
-  const {data: contentfulData} = useContentfulQuery({
+  const {
+    data: {profileCollection},
+  } = useContentfulQuery({
     query: PROFILE_QUERY,
     variables: {
       userId: video.userId,
@@ -45,18 +47,19 @@ export default function VideoDetails({params}) {
     key: video.userId,
   });
 
-  const {profileCollection} = contentfulData;
   const profile = profileCollection.items[0];
 
   const relatedProductsWithDetails =
     video.relatedProducts?.map((relatedProduct) => {
-      const product = useShopQuery({
+      const {
+        data: {product},
+      } = useShopQuery({
         query: PRODUCT_DETAIL_QUERY,
         variables: {
           id: relatedProduct,
         },
         preload: true,
-      }).data.product;
+      });
 
       const price =
         product.priceRange.maxVariantPrice.amount !==
@@ -71,6 +74,7 @@ export default function VideoDetails({params}) {
         vendor: product.vendor,
         image: product.featuredImage,
         variants: product.variants,
+        url: `/products/${product.handle}`,
       };
     }) || [];
 
@@ -180,6 +184,7 @@ const PRODUCT_DETAIL_QUERY = gql`
       id
       title
       vendor
+      handle
       featuredImage {
         url
         height

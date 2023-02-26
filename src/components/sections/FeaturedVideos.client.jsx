@@ -10,7 +10,7 @@ export function FeaturedVideos({data, title = 'Videos', ...props}) {
 
   return (
     <Section {...props} padding="y" heading={title}>
-      <div className="swimlane hiddenScroll md:pb-8 md:scroll-px-8 lg:scroll-px-12 md:px-8 lg:px-12">
+      <div className="swimlane hiddenScroll md:scroll-px-8 lg:scroll-px-12 md:px-8 lg:px-12 pb-0">
         {data.map((entry) => {
           if (!entry?.video) {
             return null;

@@ -30,11 +30,12 @@ export default function Trending() {
 }
 
 function Profiles() {
-  const {data: contentfulData} = useContentfulQuery({
+  const {
+    data: {profileCollection},
+  } = useContentfulQuery({
     query: PROFILE_QUERY,
   });
 
-  const {profileCollection} = contentfulData;
   const profiles = profileCollection?.items || [];
 
   return (

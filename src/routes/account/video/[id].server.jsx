@@ -61,6 +61,7 @@ export default function VideoDetails({response /*, isDeleted = false*/}) {
           title: product.title,
           vendor: product.vendor,
           image: product.featuredImage,
+          url: `/products/${product.handle}`,
         };
       })
     : [];
@@ -81,7 +82,6 @@ export default function VideoDetails({response /*, isDeleted = false*/}) {
         description={video.description}
         video={video.video}
         productSummaryList={productSummaryList}
-        isDeleted={isDeleted}
       />
     </Layout>
   );
@@ -120,6 +120,7 @@ const PRODUCT_DETAIL_QUERY = gql`
       id
       title
       vendor
+      handle
       featuredImage {
         url
         height

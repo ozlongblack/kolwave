@@ -33,7 +33,9 @@ export default function Homepage() {
 }
 
 function HomepageContent() {
-  const {data: contentfulData} = useContentfulQuery({
+  const {
+    data: {featuredVideos, liveVideos, heroVideos},
+  } = useContentfulQuery({
     query: HOMEPAGE_VIDEO_QUERY,
     variables: {
       featuredTags: ['recommend'],
@@ -42,8 +44,6 @@ function HomepageContent() {
     },
     key: 'videos',
   });
-
-  const {featuredVideos, liveVideos, heroVideos} = contentfulData;
 
   const liveVideosWithDetails =
     liveVideos && liveVideos.items
@@ -89,6 +89,7 @@ function HomepageContent() {
                 vendor: product.vendor,
                 image: product.featuredImage,
                 variants: product.variants,
+                url: `/products/${product.handle}`,
               };
             },
           );
@@ -264,6 +265,7 @@ const PRODUCT_DETAIL_QUERY = gql`
       id
       title
       vendor
+      handle
       featuredImage {
         url
         height

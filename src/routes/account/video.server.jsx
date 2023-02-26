@@ -38,15 +38,16 @@ export default function Videos({response, videos = []}) {
 
   if (!customer) return response.redirect('/account/login');
 
-  const {data: contentfulData} = useContentfulQuery({
-    query: CONTENTFUL_QUERY,
+  const {
+    data: {videoCollection},
+  } = useContentfulQuery({
+    query: VIDEO_QUERY,
     variables: {
       userId: customer.id,
     },
     cache: CacheNone(),
   });
 
-  const {videoCollection} = contentfulData;
   if (videos.length === 0) {
     videos = videoCollection.items;
   }
@@ -78,7 +79,7 @@ const CUSTOMER_QUERY = gql`
   }
 `;
 
-const CONTENTFUL_QUERY = gql`
+const VIDEO_QUERY = gql`
   query ($userId: String!) {
     videoCollection(where: {userId: $userId}) {
       items {
