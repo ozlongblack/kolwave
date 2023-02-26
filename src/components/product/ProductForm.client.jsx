@@ -6,7 +6,6 @@ import {
   useUrl,
   AddToCartButton,
   Money,
-  ShopPayButton,
 } from '@shopify/hydrogen';
 
 import {Heading, Text, Button, ProductOptions} from '~/components';
@@ -73,7 +72,7 @@ export function ProductForm() {
   return (
     <form className="grid gap-10">
       {
-        <div className="grid gap-4">
+        <div className="grid gap-4 empty:hidden">
           {options.map(({name, values}) => {
             if (values.length === 1) {
               return null;

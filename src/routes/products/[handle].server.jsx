@@ -54,7 +54,13 @@ export default function Product() {
     id: variantId,
     sku,
     title: variantTitle,
+    hairType,
+    skinType,
+    toneType,
+    lipType,
   } = product.variants.nodes[0];
+
+  const recommedations = {hairType, skinType, toneType, lipType};
 
   const {
     data: {videoCollection},
@@ -65,7 +71,24 @@ export default function Product() {
     },
   });
 
-  console.log(videoCollection);
+  const videosWithDetails =
+    videoCollection && videoCollection.items
+      ? videoCollection.items.map((video) => {
+          const {
+            data: {profileCollection},
+          } = useContentfulQuery({
+            query: PROFILE_QUERY,
+            variables: {
+              userId: video.userId,
+            },
+            key: video.sys.id,
+          });
+
+          const profile = profileCollection.items[0];
+
+          return {...video, profile};
+        })
+      : [];
 
   useServerAnalytics({
     shopify: {
@@ -110,6 +133,7 @@ export default function Product() {
                   )}
                 </div>
                 <ProductForm />
+                <ProductRecommends data={recommedations} />
                 <div className="grid gap-4 py-4">
                   {descriptionHtml && (
                     <ProductDetail
@@ -136,9 +160,9 @@ export default function Product() {
             </div>
           </div>
         </Section>
-        {videoCollection.items && (
+        {videosWithDetails && (
           <FeaturedVideos
-            data={videoCollection.items}
+            data={videosWithDetails}
             title={'Videos Reviews'}
           ></FeaturedVideos>
         )}
@@ -147,6 +171,58 @@ export default function Product() {
         </Suspense>
       </ProductOptionsProvider>
     </Layout>
+  );
+}
+
+function ProductRecommends({data}) {
+  const {hairType, skinType, toneType, lipType} = data;
+
+  return (
+    <div className="grid gap-4">
+      {hairType && (
+        <div>
+          <Text as="h3" size="h3">
+            #Hair Type
+          </Text>
+          <span className="px-2 rounded-full bg-signature font-proxima text-contrast">
+            {hairType.value}
+          </span>
+        </div>
+      )}
+      {skinType && (
+        <div>
+          <Text as="h3" size="h3">
+            #Skin Type
+          </Text>
+
+          <span className="px-2 rounded-full bg-signature font-proxima text-contrast">
+            {skinType.value}
+          </span>
+        </div>
+      )}
+      {toneType && (
+        <div>
+          <Text as="h3" size="h3">
+            #Tone Type
+          </Text>
+
+          <span className="px-2 rounded-full bg-signature font-proxima text-contrast">
+            {toneType.value}
+          </span>
+        </div>
+      )}
+      {lipType && (
+        <div>
+          <Text as="h3" size="h3">
+            #Lip Type
+          </Text>
+
+          <span className="px-2 rounded-full bg-signature font-proxima text-contrast">
+            {lipType.value}
+          </span>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -197,6 +273,18 @@ const PRODUCT_QUERY = gql`
             amount
             currencyCode
           }
+          hairType: metafield(namespace: "recommend", key: "hair") {
+            value
+          }
+          skinType: metafield(namespace: "recommend", key: "skin") {
+            value
+          }
+          toneType: metafield(namespace: "recommend", key: "tone") {
+            value
+          }
+          lipType: metafield(namespace: "recommend", key: "lip") {
+            value
+          }
         }
       }
       seo {
@@ -238,6 +326,33 @@ const VIDEO_QUERY = gql`
         relatedProducts
         viewCount
         userId
+      }
+    }
+  }
+`;
+
+const PROFILE_QUERY = gql`
+  query ($userId: String!) {
+    profileCollection(where: {userId: $userId}) {
+      items {
+        sys {
+          id
+        }
+        image {
+          url
+          height
+          width
+        }
+        banner {
+          url
+          height
+          width
+        }
+        nickname
+        hair
+        skin
+        tone
+        lip
       }
     }
   }

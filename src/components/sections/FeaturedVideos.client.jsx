@@ -1,4 +1,4 @@
-import {Link} from '@shopify/hydrogen';
+import {Image, Link} from '@shopify/hydrogen';
 
 import {Section, Text, Video} from '~/components';
 import {abbreviateNumber} from '~/lib/utils';
@@ -21,6 +21,16 @@ export function FeaturedVideos({data, title = 'Videos', ...props}) {
                 {entry?.video && (
                   <Video video={entry.video} className="rounded-md" />
                 )}
+
+                <div className="flex gap-2 items-center">
+                  <div className="w-8 h-8">
+                    <Image
+                      data={entry.profile.image}
+                      alt={entry.profile.nickname}
+                    />
+                  </div>
+                  <Text>{entry.profile.nickname}</Text>
+                </div>
                 <Link className="block" to={`/video/${entry.sys.id}`}>
                   <Text size="copy" className="font-proxima leading-4">
                     {entry.title}

@@ -45,18 +45,38 @@ function HomepageContent() {
     key: 'videos',
   });
 
+  const featuredVideosWithDetails =
+    featuredVideos && featuredVideos.items
+      ? featuredVideos.items.map((featuredVideo) => {
+          const {
+            data: {profileCollection},
+          } = useContentfulQuery({
+            query: PROFILE_QUERY,
+            variables: {
+              userId: featuredVideo.userId,
+            },
+            key: featuredVideo.sys.id,
+          });
+
+          const profile = profileCollection.items[0];
+
+          return {...featuredVideo, profile};
+        })
+      : [];
+
   const liveVideosWithDetails =
     liveVideos && liveVideos.items
       ? liveVideos.items.map((liveVideo) => {
-          const {data} = useContentfulQuery({
+          const {
+            data: {profileCollection},
+          } = useContentfulQuery({
             query: PROFILE_QUERY,
             variables: {
               userId: liveVideo.userId,
             },
-            key: liveVideo.userId,
+            key: liveVideo.sys.id,
           });
 
-          const {profileCollection} = data;
           const profile = profileCollection.items[0];
 
           return {...liveVideo, profile};
@@ -113,7 +133,7 @@ function HomepageContent() {
     <>
       {featuredVideos && (
         <FeaturedVideos
-          data={featuredVideos.items}
+          data={featuredVideosWithDetails}
           title="#Recommended New Year Gift"
         />
       )}

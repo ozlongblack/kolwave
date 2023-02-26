@@ -28,7 +28,9 @@ export function CartEmpty({onClose, layout = 'drawer'}) {
           started!
         </Text>
         <div>
-          <Button onClick={onClose}>Continue shopping</Button>
+          <Button onClick={onClose} className="rounded-full">
+            Continue shopping
+          </Button>
         </div>
       </section>
       <section className="grid gap-8 pt-4">
