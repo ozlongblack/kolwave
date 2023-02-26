@@ -110,6 +110,7 @@ export function ProductForm() {
             width="full"
             variant={isOutOfStock ? 'secondary' : 'primary'}
             as="span"
+            className="rounded-full"
           >
             {isOutOfStock ? (
               <Text>Sold out</Text>
@@ -118,7 +119,7 @@ export function ProductForm() {
                 as="span"
                 className="flex items-center justify-center gap-2"
               >
-                <span>Add to bag</span> <span>·</span>{' '}
+                <span>Add to Cart</span> <span>·</span>{' '}
                 <Money
                   withoutTrailingZeros
                   data={selectedVariant.priceV2}
@@ -136,7 +137,6 @@ export function ProductForm() {
             )}
           </Button>
         </AddToCartButton>
-        {!isOutOfStock && <ShopPayButton variantIds={[selectedVariant.id]} />}
       </div>
     </form>
   );

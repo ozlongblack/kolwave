@@ -40,7 +40,7 @@ describe('products', () => {
       session.visit(productUrl),
     ]);
 
-    const addToCartButton = await session.page.locator('text=Add to bag');
+    const addToCartButton = await session.page.locator('text=Add to Cart');
 
     // Click on add to cart button
     const [cartResponse] = await Promise.all([

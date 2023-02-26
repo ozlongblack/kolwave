@@ -143,7 +143,7 @@ export default function Product() {
           ></FeaturedVideos>
         )}
         <Suspense>
-          <ProductSwimlane title="Related Products" data={id} />
+          <ProductSwimlane title="You may also like" data={id} />
         </Suspense>
       </ProductOptionsProvider>
     </Layout>

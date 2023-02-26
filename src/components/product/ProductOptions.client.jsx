@@ -36,7 +36,7 @@ function OptionsGrid({values, name, handleChange}) {
               onChange={() => handleChange(name, value)}
             />
             <div
-              className={`leading-none py-1 border-b-[1.5px] cursor-pointer transition-all duration-200 ${
+              className={`leading-none py-1 border-b-[1.5px] font-proxima cursor-pointer transition-all duration-200 ${
                 checked ? 'border-primary/50' : 'border-primary/0'
               }`}
             >
