@@ -94,7 +94,7 @@ export default function Product() {
       </Suspense>
       <ProductOptionsProvider data={product}>
         <Section padding="x" className="px-0">
-          <div className="grid items-start md:gap-6 lg:gap-20 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid items-start md:gap-6 lg:gap-20 md:grid-cols-2 lg:grid-cols-3 pt-6 md:pt-8 lg:pt-12">
             <ProductGallery
               media={media.nodes}
               className="w-screen md:w-full lg:col-span-2"

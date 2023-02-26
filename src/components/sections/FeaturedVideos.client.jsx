@@ -17,7 +17,7 @@ export function FeaturedVideos({data, title = 'Videos', ...props}) {
           }
           return (
             <div key={entry.sys.id}>
-              <div className="grid gap-2 snap-start w-40">
+              <div className="grid gap-2 snap-start w-40 md:w-60 lg:w-80">
                 {entry?.video && (
                   <Video video={entry.video} className="rounded-md" />
                 )}
