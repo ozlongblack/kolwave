@@ -31,6 +31,9 @@ export function Video({video, live, click, className}) {
         onMouseLeave={(event) => {
           event.target.pause();
         }}
+        onTimeUpdate={(event) => {
+          console.log(Math.trunc(event.target.currentTime));
+        }}
       >
         <source src={`${video.url}#t=0.001`} type={video.contentType}></source>
         Your browser does not support the video tag.

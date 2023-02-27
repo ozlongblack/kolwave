@@ -144,6 +144,7 @@ const VIDEO_QUERY = gql`
       }
       tags
       relatedProducts
+      timeline
       userId
     }
   }
